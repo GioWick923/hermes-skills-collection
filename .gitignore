@@ -1,0 +1,11 @@
+# Paquete de build / scratch
+.catalog.json
+build_showcase.py
+*.tmp
+
+# Nunca subir archivos de entorno/secreto
+.env
+.env.*
+!.env.example
+*.pem
+*.key

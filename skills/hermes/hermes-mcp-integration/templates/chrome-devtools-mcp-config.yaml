@@ -1,0 +1,20 @@
+# Known-good Hermes mcp_servers block for Chrome DevTools MCP (verified 2026-07-12)
+# Paste under the existing `mcp_servers:` key in config.yaml.
+# Prereqs: Node.js (npx), and a Chrome/Chromium binary (point executablePath at it).
+# Verify with: hermes mcp test chrome-devtools
+# Then restart Hermes (/reset) — tools appear as mcp_chrome_devtools_<tool>
+
+  chrome-devtools:
+    command: "npx"
+    args: ["-y", "chrome-devtools-mcp@latest", "--headless",
+           "--no-usage-statistics", "--no-performance-crux",
+           "--executablePath=C:/Users/<USER> GAMES/AppData/Local/ms-playwright/chromium-1228/chrome-win64/chrome.exe"]
+    timeout: 120
+    enabled: true
+
+# Notes:
+# - Remove --headless if you want a visible browser UI.
+# - Add --slim (before --headless) for minimal 3-tool set (navigate/screenshot/evaluate).
+# - Chrome for Testing is the officially supported binary; Playwright Chromium works but is unofficial.
+# - For stable Chrome instead of Playwright, set executablePath to the stable install,
+#   or omit it entirely if Chrome is on PATH.

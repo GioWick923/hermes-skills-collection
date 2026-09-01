@@ -1,0 +1,9 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "ansi_strip_rs"
+version = "0.1.0"
+description = "Rust-accelerated drop-in for a Python hot path (PyO3)"
+requires-python = ">=3.10"

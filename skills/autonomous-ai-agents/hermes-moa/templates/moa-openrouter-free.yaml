@@ -1,0 +1,21 @@
+# Known-good MOA preset using OpenRouter :free models (no cost).
+# Slow — run `hermes chat` MOA calls in background. For quality like the
+# HermesBench result (opus aggregator over gpt-5.5 reference, +6 pts),
+# swap the :free models for paid ones you own in OpenRouter.
+moa:
+  default_preset: default
+  active_preset: default
+  presets:
+    default:
+      reference_models:
+        - provider: openrouter
+          model: meta-llama/llama-3.1-8b-instruct:free
+        - provider: openrouter
+          model: deepseek/deepseek-chat:free
+      aggregator:
+        provider: openrouter
+        model: tencent/hy3:free      # replace with your normal chat model
+      reference_temperature: 0.6
+      aggregator_temperature: 0.4
+      max_tokens: 4096
+      enabled: true

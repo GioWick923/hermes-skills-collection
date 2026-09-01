@@ -1,0 +1,31 @@
+# Known-good MOA block — copy into config.yaml under a `moa:` key.
+# All models are OpenRouter :free (no cost); swap for paid models for quality.
+moa:
+  default_preset: default
+  active_preset: default
+  presets:
+    default:
+      reference_models:
+        - provider: openrouter
+          model: meta-llama/llama-3.1-8b-instruct:free
+        - provider: openrouter
+          model: deepseek/deepseek-chat:free
+      aggregator:
+        provider: openrouter
+        model: tencent/hy3:free      # <- your real production model
+      reference_temperature: 0.6
+      aggregator_temperature: 0.4
+      max_tokens: 4096
+      enabled: true
+    # Optional second preset for hard tasks (needs paid models in your account):
+    # review:
+    #   reference_models:
+    #     - provider: openrouter
+    #       model: anthropic/claude-opus-4
+    #   aggregator:
+    #     provider: openrouter
+    #       model: openai/gpt-4o
+    #   reference_temperature: 0.7
+    #   aggregator_temperature: 0.3
+    #   max_tokens: 8192
+    #   enabled: true

@@ -1,0 +1,101 @@
+# ============================================================
+# Hermes Agent - .gitignore (security-tuned)
+# Place at the root of $LOCALAPPDATA/hermes (the real config dir).
+# Tracks: skills, profiles/*, memories, cron, kanban, .gitignore, backup-state.sh
+# EXCLUDES: secrets, databases, live state, runtime caches, embedded skill repos.
+# ============================================================
+
+# ---- SECRETOS (NUNCA commitear) ----
+.env
+auth.json
+auth.lock
+config.yaml
+config.yaml.bak.*
+.update_check
+.skills_prompt_snapshot.json
+channel_directory.json
+gateway.lock
+gateway.pid
+gateway_state.json
+context_length_cache.yaml
+ollama_cloud_models_cache.json
+models_dev_cache.json
+
+# ---- BASE DE DATOS / ESTADO ----
+*.db
+*.db.*
+*.sqlite
+*.sqlite3
+*.wal
+state.db*
+sessions/
+
+# ---- RUNTIME / HERRAMIENTAS LIVE (no es config) ----
+tools/
+hermes-agent/
+provider_models_cache.json
+processes.json
+
+# ---- REPOS GIT EMBEBIDOS dentro de skills (no trackear) ----
+skills/hermes-self-evolution/repo/
+skills/melodymine/
+skills/skill-radar/
+skills/watch-video/
+**/.git/
+
+# ---- CRON RUNTIME (cambia cada tick, no versionable) ----
+cron/ticker_heartbeat
+cron/ticker_last_success
+cron/output/
+
+# ---- LOCKS adicionales y runtime de cron/memories ----
+cron/.jobs.lock
+cron/.tick.lock
+*/cron/.jobs.lock
+*/cron/.tick.lock
+memories/*.lock
+kanban/.dispatcher.lock
+
+# ---- LSP / runtime editor ----
+lsp/
+.usage.json.lock
+*/skills/.usage.json.lock
+
+# ---- BACKUP LOCAL (secretos/estado, NO en git) ----
+backups/
+
+# ---- CACHES Y RUNTIME BINARIO de la app de escritorio ----
+audio_cache/
+image_cache/
+Cache/
+Code Cache/
+GPUCache/
+DawnGraphiteCache/
+DawnWebGPUCache/
+blob_storage/
+bootstrap-cache/
+node/
+bin/
+git/
+pets/
+platforms/
+pairing/
+logs/
+Network/
+Partitions/
+"Session Storage"/
+Shared Dictionary/
+DIPS
+DIPS-wal
+"Local State"
+Local Storage/
+Preferences
+window-state.json
+native-theme.json
+backend-ready/
+hermes-setup.exe
+__pycache__/
+
+# ---- NOTA ----
+# Si quieres trackear cambios de config.yaml de forma segura,
+# crea un config.example.yaml sin secretos y añádelo manualmente.
