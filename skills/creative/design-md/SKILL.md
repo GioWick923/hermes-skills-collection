@@ -177,6 +177,27 @@ structurally.
 When the user cares about accessibility, call this out explicitly in your
 summary — WCAG findings are the most load-bearing reason to use the CLI.
 
+## Windows: el binario `design.md` NO corre (bug)
+
+El paquete define los bins `design.md` y `designmd`. El bin con punto
+`design.md` falla en Windows (bash/CMD lo trata como comando batch →
+"no se reconoce como comando"). El alias `designmd` **no existe en npm**
+(404), así que no sirve de escape.
+
+**Solución probada (2026-09-01):** instalar el paquete local y ejecutar el
+entrypoint con `node` directo vía un wrapper en PATH:
+
+```bash
+npm install @google/design.md   # en ~/tools/design-md-cli
+# wrapper ~/bin/designmd:
+#   CLI="C:/Users/<USER>/tools/design-md-cli/node_modules/@google/design.md/dist/index.js"
+#   exec node "$CLI" "$@"
+```
+
+Luego usar `designmd lint|export|diff|spec ...` como comando global.
+`npx -y @google/design.md` NO funciona en Windows. Ruta nativa con
+forward-slash (MSYS rompe `~` → `C:\c\...`).
+
 ## Pitfalls
 
 - **Don't nest component variants.** `button-primary.hover` is wrong;

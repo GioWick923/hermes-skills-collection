@@ -68,3 +68,11 @@ commits viejos + web_search confirma hype sin sustancia.
 ## Support files
 - `references/port-recipes.md` — recipes verificadas (2026-08-27): knowledge-skill (OpenMythos)
   y port data+scripts (ui-ux-pro-max) con comandos exactos.
+- `references/agent-tool-adoption.md` — recipe verificada (2026-09-01) para adoptar un
+  PRODUCTO de agente (CLI + extensión/skill por harness, no un port de data/scripts).
+  Ejemplo: BrowserSkill (Tencent) — `bsk install-skill --harness hermes`, verificación con
+  `bsk doctor`, registro en índice Pulpo + EVOLUTION.md, y el único paso humano (extensión).
+- `references/skill-pack-adoption.md` — recipe verificada (2026-09-01) para adoptar skills
+  de un skill-pack (`npx skills add` con múltiples SKILL.md): clonar, filtrar por
+  auth/key + redundancia + corre-en-este-entorno, portar SOLO los ganadores a Hermes.
+  Ejemplo: ReScienceLab/opc-skills → solo se adoptó `seo-geo` (audit SEO/GEO sin API).

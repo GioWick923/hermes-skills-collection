@@ -291,6 +291,58 @@ PY
 This confirms the plugin loads, registers its tools, and the handlers run — a genuine
 pre-restart verification (the user still must restart Hermes for the toolset to be live).
 
+## Adopting a community SKILL PACK (many skills at once)
+
+When a repo (or a tweet linking one) ships a *pack* of skills, don't install the whole
+thing blindly. Evaluate, then port only what earns its keep:
+
+1. **Clone the repo** and read `skills.json` / the `skills/` dir to enumerate every skill
+   with its description, auth requirement, and dependencies.
+2. **Test the no-key candidates with real execution** before deciding. A skill that says
+   "no API key" but returns `HTTP 403` in your environment, or is already covered by an
+   existing skill, is a SKIP — not a port. Run the actual script once.
+3. **Decide total / partial / skip per skill.** Common skip reasons: needs a paid/third-party
+   API key you don't have, duplicates an existing skill, or fails in your environment.
+4. **Port only the value.** Copy the `SKILL.md` (and its own `references/`/`scripts/`), adapt
+   for the host (`python` not `python3` on Windows), and rewrite the frontmatter `description`
+   so Hermes' matcher fires.
+5. **Verify the ported skill** (`hermes skills list | grep <name>`) and run its script from
+   the *installed* path — not the clone.
+
+### Evolving an ALREADY-INSTALLED pack to a newer upstream
+
+If you discover the pack is already installed but the repo moved on, do a per-skill diff
+(compare each `SKILL.md` line counts + content), then act on the gaps only:
+- **Skill missing locally** → copy it in.
+- **Skill where repo is strictly newer** (more lines, added content) → take the repo version,
+  but **normalize shared-reference paths** the repo wrote as `../../references/foo.md` →
+  `references/foo.md` (Hermes layout), then copy any shared `references/` folder the skill
+  references.
+- **Skill where your copy is local-modified** (has lines the repo lacks) → those lines are
+  deliberate local conventions; check whether upstream now *incorporates* them before
+  overwriting. If yes, take upstream; if no, preserve them.
+- **Skills identical or differing only in reference-path spelling** → leave alone (your copy
+  already adapted them; don't churn).
+- After updating, scan every skill for `../../references/` leftovers and for references to
+  `references/*.md` files that don't exist — those are broken links to fix or false positives
+  to verify (a skill's own `references/` subfolder is valid).
+
+## Security-scanner blocked the plugin? Adopt the SKILL.md anyway
+
+`hermes plugins install <git-url>` runs a scanner; a **community source with many findings can
+be BLOCKED with a "dangerous" verdict** that `--force` cannot override. That is the correct
+outcome for the full bundle (scripts/hooks/plugin runtime) — but it does NOT mean the skill
+idea is lost:
+
+- The behavioral value of many "skills" is **markdown content** (the workflow ladder, the
+  decision framework), not code.
+- **Copy the `SKILL.md` files into the Hermes skills dir directly** (`$LOCALAPPDATA/hermes/skills/<name>/SKILL.md`)
+  and register them as plain skills. Skip the plugin's scripts, hooks, and `plugin.yaml`.
+- This sidesteps the scanner entirely (markdown is inert) while preserving the reusable
+  knowledge. Name it the same, adapt frontmatter, note in the body it's a markdown-only port.
+- Trade-off to state honestly: you lose the plugin's always-on hooks/slash commands and any
+  bundled runtime — you get the workflow as an on-demand skill.
+
 ## Windows path gotcha (MSYS shell + native python)
 
 The agent shell is git-bash/MSYS (POSIX paths like `/c/Users/...`). Native `python`

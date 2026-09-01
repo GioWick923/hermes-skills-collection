@@ -4,10 +4,10 @@
 
 ### La biblioteca de capacidades más completa para tu agente de IA
 
-**251 skills · 34 categorías · listas para usar**
+**259 skills · 34 categorías · listas para usar**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-251-brightgreen)](CATALOG.md)
+[![Skills](https://img.shields.io/badge/skills-259-brightgreen)](CATALOG.md)
 [![Categories](https://img.shields.io/badge/categor%C3%ADas-34-blue)](CATALOG.md)
 
 *Desarrollado y curado a lo largo de meses de evolución continua de un agente Hermes real.*
@@ -111,7 +111,7 @@ skills/
 
 ## 📄 Documentación
 
-- **[CATALOG.md](CATALOG.md)** — las **251 skills** completas con su descripción, agrupadas por categoría
+- **[CATALOG.md](CATALOG.md)** — las **259 skills** completas con su descripción, agrupadas por categoría
 
 ---
 

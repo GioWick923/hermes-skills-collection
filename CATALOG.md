@@ -1,16 +1,16 @@
 # 📚 Catálogo de Skills — Hermes Agent
 
-**251 skills · 34 categorías** — colección curada y funcional.
+**259 skills · 34 categorías** — colección curada y funcional.
 
 | Categoría | # Skills |
 |---|---|
-| agency | 10 |
+| agency | 11 |
 | agent | 1 |
-| agent-skills | 24 |
+| agent-skills | 25 |
 | apple | 4 |
 | automation | 1 |
 | autonomous-ai-agents | 19 |
-| communication | 4 |
+| communication | 5 |
 | creative | 21 |
 | data | 1 |
 | data-science | 1 |
@@ -19,15 +19,15 @@
 | devops | 4 |
 | devtools | 2 |
 | email | 2 |
-| engineering | 7 |
-| github | 7 |
-| hermes | 23 |
+| engineering | 8 |
+| github | 8 |
+| hermes | 24 |
 | infra | 1 |
 | integrations | 4 |
 | media | 6 |
 | mlops | 27 |
 | network | 2 |
-| note-taking | 1 |
+| note-taking | 2 |
 | performance | 1 |
 | productivity | 26 |
 | research | 16 |
@@ -35,7 +35,7 @@
 | security | 2 |
 | smart-home | 1 |
 | social-media | 1 |
-| software-development | 23 |
+| software-development | 24 |
 | trading | 5 |
 | web-search | 1 |
 
@@ -50,11 +50,12 @@
 | `agency-backend-architect` | Backend Architect (Agency Agents → Hermes). Diseña backend escalable y seguro: esquemas de datos, APIs con contratos (OpenAPI/AsyncAPI/protobuf), confiabilidad (circuit breakers, idempotencia, DLQ) y observabilidad. Security-first y performance-conscious. |
 | `agency-orchestrator` | Conductor multiagente de Agency Agents para Hermes. Orquesta un pipeline de desarrollo completo: arquitecto → [dev ↔ QA en bucle] → reality-checker. Usa subagentes Hermes (delegate_task) y gates de calidad con evidencias reales, no afirmaciones. |
 | `agency-orchestrator` | Conductor multiagente de Agency Agents para Hermes. Orquesta un pipeline de desarrollo completo: arquitecto → [dev ↔ QA en bucle] → reality-checker. Usa subagentes Hermes (delegate_task) y gates de calidad con evidencias reales, no afirmaciones. |
-| `agency-persona-conversion` | Procedimiento para convertir librerías de personas/agentes externas (p.ej. msitarzewski/agency-agents, MIT, ~147 agentes) en skills de Hermes: clonar, leer definiciones reales, destilar a SKILL.md con prefijo/ categoría, mapear 'spawn agent' a delegate_task, y verificar sin romper nada. |
+| `agency-persona-conversion` | Procedimiento para convertir librerías de personas/agentes externas (p.ej. msitarzewski/agency-agents, MIT, ~147 agentes) en skills de Hermes: clonar, leer definiciones reales, destilar a SKILL.md con prefijo/ categoría, mapear 'spawn agent' a delegate_task, y verificar sin ro... |
 | `agency-pipeline-test` | Cómo ejecutar y verificar el orquestador multiagente Agency (agency-orchestrator) en un proyecto real pequeño, de extremo a extremo, con evidencia en disco. Usar cuando se quiera probar el equipo Agency o cualquier pipeline de delegate_task. |
 | `agency-reality-checker` | Reality Checker (Agency Agents → Hermes). Última línea de defensa contra aprobaciones de fantasía. Por defecto 'NEEDS WORK'; exige evidencia abrumadora (screenshots, tests, métricas reales) antes de certificar producción. Escéptico y basado en evidencia. |
 | `agency-senior-developer` | Senior Developer (Agency Agents → Hermes). Implementador full-stack de calidad: escribe código limpio, performante y mantenible, aplica estándares premium y verifica cada elemento interactivo. No añade features no pedidas. |
 | `agency-test-automation` | Test Automation Engineer (Agency Agents → Hermes). Construye suites E2E deterministas (Playwright/Cypress): selectores por rol, cero sleeps, datos aislados, CI paralelo con trazas, y anti-flake con root-cause. 'Un test flaky es un bug con tu nombre'. |
+| `nuwa-light` | Destilar el estilo de pensamiento de una persona en un skill instalable (marco conceptual ligero, sin multi-agente ni coste alto). Entrada: un nombre ('hazme un skill estilo Taleb') o un problema difuso ('quiero decidir mejor' → recomienda a quién destilar). Produce un skill d... |
 
 ## 🗂️ agent
 
@@ -67,27 +68,28 @@
 | Skill | Descripción |
 |---|---|
 | `api-and-interface-design` | Guides stable API and interface design. Use when designing APIs, module boundaries, or any public interface. Use when creating REST or GraphQL endpoints, defining type contracts between modules, or establishing boundaries between frontend and backend. |
-| `browser-testing-with-devtools` | Tests in real browsers via Chrome DevTools MCP. Use when building or debugging anything that runs in a browser. Use when you need to inspect the DOM, capture console errors, analyze network requests, profile performance, or verify visual output with real runtime data. Requires the chrome-devtools MCP server to be configured. |
+| `browser-testing-with-devtools` | Tests in real browsers via Chrome DevTools MCP. Use when building or debugging anything that runs in a browser. Use when you need to inspect the DOM, capture console errors, analyze network requests, profile performance, or verify visual output with real runtime data. Requires... |
 | `ci-cd-and-automation` | Automates CI/CD pipeline setup. Use when setting up or modifying build and deployment pipelines. Use when you need to automate quality gates, configure test runners in CI, or establish deployment strategies. |
 | `code-review-and-quality` | Conducts multi-axis code review. Use before merging any change. Use when reviewing code written by yourself, another agent, or a human. Use when you need to assess code quality across multiple dimensions before it enters the main branch. |
 | `code-simplification` | Simplifies code for clarity. Use when refactoring code for clarity without changing behavior. Use when code works but is harder to read, maintain, or extend than it should be. Use when reviewing code that has accumulated unnecessary complexity. |
+| `constraint-driven-development` | Establishes a project's quality bar as a written contract and stops agents quietly lowering it. Interviews the user on which dimensions matter, supplies sane default thresholds when they have no number in mind, records everything in CONSTRAINTS.md, and watches the diff for a w... |
 | `context-engineering` | Optimizes agent context setup. Use when starting a new session, when agent output quality degrades, when switching between tasks, or when you need to configure rules files and context for a project. |
 | `debugging-and-error-recovery` | Guides systematic root-cause debugging. Use when tests fail, builds break, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need a systematic approach to finding and fixing the root cause rather than guessing. |
 | `deprecation-and-migration` | Manages deprecation and migration. Use when removing old systems, APIs, or features. Use when migrating users from one implementation to another. Use when deciding whether to maintain or sunset existing code. |
 | `documentation-and-adrs` | Records decisions and documentation. Use when making architectural decisions, changing public APIs, shipping features, or when you need to record context that future engineers and agents will need to understand the codebase. |
-| `doubt-driven-development` | Subjects every non-trivial decision to a fresh-context adversarial review before it stands. Use when correctness matters more than speed, when working in unfamiliar code, when stakes are high (production, security-sensitive logic, irreversible operations), or any time a confident output would be cheaper to verify now than to debug later. |
-| `frontend-ui-engineering` | Builds production-quality, accessible, responsive user-facing UIs. Use when building or modifying interfaces and pages, creating components, implementing layouts, meeting WCAG accessibility requirements, managing state, or when the output needs to look and feel production-quality rather than AI-generated. |
-| `git-workflow-and-versioning` | Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, or when you need to organize work across multiple parallel streams. Use when cutting a release, choosing a semantic version bump, tagging, or writing a changelog. |
-| `idea-refine` | Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking. Use when an idea is still vague, when you need to stress-test assumptions before committing to a plan, or when you want to expand options before converging on one. Triggers on "ideate", "refine this idea", or "stress-test my plan". |
+| `doubt-driven-development` | Subjects every non-trivial decision to a fresh-context adversarial review before it stands. Use when correctness matters more than speed, when working in unfamiliar code, when stakes are high (production, security-sensitive logic, irreversible operations), or any time a confid... |
+| `frontend-ui-engineering` | Builds production-quality, accessible, responsive user-facing UIs. Use when building or modifying interfaces and pages, creating components, implementing layouts, meeting WCAG accessibility requirements, managing state, or when the output needs to look and feel production-qual... |
+| `git-workflow-and-versioning` | Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, or when you need to organize work across multiple parallel streams. Use when cutting a release, choosing a semantic version bump, tagging, or writing a chan... |
+| `idea-refine` | Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking. Use when an idea is still vague, when you need to stress-test assumptions before committing to a plan, or when you want to expand options before converging on one. Triggers ... |
 | `incremental-implementation` | Delivers changes incrementally. Use when implementing any feature or change that touches more than one file. Use when you're about to write a large amount of code at once, or when a task feels too big to land in one step. |
-| `interview-me` | Extracts what the user actually wants instead of what they think they should want. Achieves this through one-question-at-a-time interview until ~95% confidence about the underlying intent. Use when an ask is underspecified ("build me X" without "for whom" or "why now"), when the user explicitly invokes ("interview me", "grill me", "are we sure?", "stress-test my thinking"), or when you catch yourself silently filling in ambiguous requirements before any plan, spec, or code exists. |
-| `observability-and-instrumentation` | Instruments code so production behavior is visible and diagnosable. Use when adding logging, metrics, tracing, or alerting. Use when shipping any feature that runs in production and you need evidence it works. Use when production issues are reported but you can't tell what happened from the available data. |
-| `performance-optimization` | Optimizes application performance across frontend, backend, queries, and databases. Use when performance requirements exist, when you suspect performance regressions, when Core Web Vitals or load times need improvement, when N+1 query patterns need fixing, or when profiling reveals bottlenecks. |
+| `interview-me` | Extracts what the user actually wants instead of what they think they should want. Achieves this through one-question-at-a-time interview until ~95% confidence about the underlying intent. Use when an ask is underspecified ("build me X" without "for whom" or "why now"), when t... |
+| `observability-and-instrumentation` | Instruments code so production behavior is visible and diagnosable. Use when adding logging, metrics, tracing, or alerting. Use when shipping any feature that runs in production and you need evidence it works. Use when production issues are reported but you can't tell what hap... |
+| `performance-optimization` | Optimizes application performance across frontend, backend, queries, and databases. Use when performance requirements exist, when you suspect performance regressions, when Core Web Vitals or load times need improvement, when N+1 query patterns need fixing, or when profiling re... |
 | `planning-and-task-breakdown` | Breaks work into ordered tasks. Use when you have a spec or clear requirements and need to break work into implementable tasks. Use when a task feels too large to start, when you need to estimate scope, or when parallel work is possible. |
-| `security-and-hardening` | Hardens code against vulnerabilities. Use when handling user input, authentication, data storage, or external integrations. Use when building any feature that accepts untrusted data, manages user sessions, or interacts with third-party services. |
+| `security-and-hardening` | Hardens code against vulnerabilities. Use when handling user input, authentication, data storage, or external integrations. Use when building any feature that accepts untrusted data, manages user sessions, or interacts with third-party services. Use when personal data or priva... |
 | `shipping-and-launch` | Prepares production launches. Use when preparing to deploy to production. Use when you need a pre-launch checklist, when setting up monitoring, when planning a staged rollout, or when you need a rollback strategy. |
 | `source-driven-development` | Grounds every implementation decision in official documentation. Use when you want authoritative, source-cited code free from outdated patterns. Use when building with any framework or library where correctness matters. |
-| `spec-driven-development` | Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requirements are unclear, ambiguous, or only exist as a vague idea. |
+| `spec-driven-development` | Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requirements are unclear, ambiguous, or only exist as a vague idea. Use when a single requirement spans several independently testable capabil... |
 | `test-driven-development` | Drives development with tests. Use when implementing any logic, fixing any bug, or changing any behavior. Use when you need to prove that code works, when a bug report arrives, or when you're about to modify existing functionality. |
 | `using-agent-skills` | Discovers and invokes agent skills. Use when starting a session or when you need to discover which skill applies to the current task. This is the meta-skill that governs how all other skills are discovered and invoked. |
 
@@ -104,7 +106,7 @@
 
 | Skill | Descripción |
 |---|---|
-| `cron-content-delivery` | Deliver recurring daily/weekly content to the user via Hermes cron jobs — language-learning phrases, quotes, reminders, tips. Use when the user wants something sent on a schedule (especially to Telegram), with self-contained scripts, multiple fire times, date-seeded variety, and JSON history for spaced repetition. Covers the script-only (no_agent=true) cron pattern, Telegram-only delivery, the Windows path-duplication pitfall, and the clock-mock verification trap. |
+| `cron-content-delivery` | Deliver recurring daily/weekly content to the user via Hermes cron jobs — language-learning phrases, quotes, reminders, tips. Use when the user wants something sent on a schedule (especially to Telegram), with self-contained scripts, multiple fire times, date-seeded variety, a... |
 
 ## 🗂️ autonomous-ai-agents
 
@@ -118,14 +120,14 @@
 | `hermes-browser` | Use when the optional Hermes Browser companion plugin is installed and exposes cached Browser Context Protocol tools; check context availability first, then read or clear cached browser context safely. |
 | `hermes-browser-extension` | Use when working with the Hermes Browser Extension for Chromium side-panel browser context, connection setup, troubleshooting, or Browser-to-Hermes workflows; use it to connect to local, Hermes Cloud, or remote gateways and to keep browser context handling safe and explicit. |
 | `hermes-closed-loop-engineering` | Use when designing or executing non-trivial Hermes work as a closed feedback loop: verifiable goals, bounded iterations, independent verification, clean memory/skill updates, and evidence-backed completion. |
-| `hermes-local-fallback` | Configure a LOCAL model server (Ollama, LM Studio, llama.cpp, vLLM) as an offline/cost-free FALLBACK for Hermes Agent, so it answers automatically when the primary online provider (OpenRouter/NVIDIA/etc.) is unreachable. Covers the fallback_providers mechanism, the OpenAI-compatible local endpoint, safe config.yaml editing (file tools are blocked for it), and real verification by simulating 'no internet' with a dead host. |
-| `hermes-moa` | Configure, activate, and verify Mixture of Agents (MOA) in Hermes — the native virtual model provider that fans out to reference models and aggregates with one acting model. Covers the factory-preset gotcha, config.yaml editing (blocked for file tools), and end-to-end verification. |
+| `hermes-local-fallback` | Configure a LOCAL model server (Ollama, LM Studio, llama.cpp, vLLM) as an offline/cost-free FALLBACK for Hermes Agent, so it answers automatically when the primary online provider (OpenRouter/NVIDIA/etc.) is unreachable. Covers the fallback_providers mechanism, the OpenAI-comp... |
+| `hermes-moa` | Configure, activate, and verify Mixture of Agents (MOA) in Hermes — the native virtual model provider that fans out to reference models and aggregates with one acting model. Covers the factory-preset gotcha, config.yaml editing (blocked for file tools), and end-to-end verifica... |
 | `local-ablit-delegation` | Use when restricted: delegate to local abliterated model. |
 | `memory-consolidate` | Daily fact extraction with importance scoring and decay. |
 | `merge-reconciler` | Neutral third-party resolution of agent merge conflicts. |
 | `obscura-browser` | Use when Hermes needs fast scraping, JavaScript-rendered page extraction, browser automation, or MCP browser tools through the local Obscura Rust headless browser. |
 | `opencode` | Delegate coding to OpenCode CLI (features, PR review). |
-| `openhands-docker-setup` | Deploy and debug OpenHands (all-hands-ai) in Docker on Windows/MSYS. Covers the runtime-version-mismatch debugging chain (micromamba, conda env, network), runtime-image patching via Dockerfile overlay, LLM model selection for tool-calling agents (reasoning models like hy3 break OpenHands), and the OpenRouter free-tier daily-limit gotcha. Use when the user asks to set up, deploy, debug, or run OpenHands locally via Docker. |
+| `openhands-docker-setup` | Deploy and debug OpenHands (all-hands-ai) in Docker on Windows/MSYS. Covers the runtime-version-mismatch debugging chain (micromamba, conda env, network), runtime-image patching via Dockerfile overlay, LLM model selection for tool-calling agents (reasoning models like hy3 brea... |
 | `pi-coding` | Use to delegate coding tasks to the Pi Agent CLI. |
 | `self-reflect` | Generate-critique-correct loop using a cheap model. |
 | `validate-output` | Hallucination detection and confidence scoring for results. |
@@ -134,7 +136,8 @@
 
 | Skill | Descripción |
 |---|---|
-| `chat-closing-format` | Mandatory end-of-chat format for this user. Every chat must close with (1) recommended next steps, each option carrying a brief 'why', (2) a 0-100 'solidity / room-to-improve' battery with an icon, and (3) traffic-light (green/amber/red) warnings. Use at the end of EVERY turn that concludes a topic or the whole session. |
+| `caveman` | Modo de comunicación ultra-comprimido que corta tokens de salida manteniendo precisión técnica. Niveles: lite, full, ultra y variantes wenyan. Usa para '/caveman', 'modo caveman', 'habla como cavernícola', 'sé breve' o 'menos tokens'. Adaptado de JuliusBrussee/caveman (MIT), 2... |
+| `chat-closing-format` | Mandatory end-of-chat format for this user. Every chat must close with (1) recommended next steps, each option carrying a brief 'why', (2) a 0-100 'solidity / room-to-improve' battery with an icon, and (3) traffic-light (green/amber/red) warnings. Use at the end of EVERY turn ... |
 | `response-preferences` | Responde breve en español, con autonomía y emojis moderados. |
 | `show-me` | Use when explaining code/architecture/flows to the user: show-me visual pattern. |
 | `x-tweet-extract` | Extract X tweet text+image without login via syndication. |
@@ -169,7 +172,7 @@
 
 | Skill | Descripción |
 |---|---|
-| `langextract-structured` | Extract structured information from unstructured text using Google LangExtract with precise source grounding and interactive HTML visualization. Use when the user wants to pull entities/fields from documents, notes, reports, or transcripts (e.g. 'extract medications from this note', 'pull key facts from this text', 'structure this report'). |
+| `langextract-structured` | Extract structured information from unstructured text using Google LangExtract with precise source grounding and interactive HTML visualization. Use when the user wants to pull entities/fields from documents, notes, reports, or transcripts (e.g. 'extract medications from this ... |
 
 ## 🗂️ data-science
 
@@ -222,6 +225,7 @@
 | `improve-codebase-architecture` | Scan codebase for deepening opportunities, visual report. |
 | `resolving-merge-conflicts` | Resolve in-progress git merge/rebase conflict hunk by hunk. |
 | `retro` | Use when reviewing a finished session to improve future runs: retro audit. |
+| `seo-geo` | SEO & GEO (Generative Engine Optimization) para webs — optimiza para motores IA (ChatGPT, Perplexity, Gemini, Copilot, Claude) y búsqueda tradicional (Google, Bing). Usa cuando se quiera mejorar visibilidad de búsqueda, ranking IA, citas en motores generativos, indexación, JSO... |
 | `web-console-iframe-automation` | Extraer IDs/datos de consolas SPA con contenido en iframes. |
 
 ## 🗂️ github
@@ -235,6 +239,7 @@
 | `github-issues` | Create, triage, label, assign GitHub issues via gh or REST. |
 | `github-pr-workflow` | GitHub PR lifecycle: branch, commit, open, CI, merge. |
 | `github-repo-management` | Clone/create/fork repos; manage remotes, releases. |
+| `publish-sanitized-collection` | Publish sanitized Hermes skills to GitHub as showcase. |
 
 ## 🗂️ hermes
 
@@ -244,23 +249,24 @@
 | `bot-fleet-registry` | Audita la flota Hermes: skills, cronjobs y su salud. |
 | `botdirectory-bridge` | Evalúa prompts de botdirectory.ai para portar a Hermes. |
 | `headroom-integration` | Use Headroom proxy to compress tool outputs and save tokens. |
-| `hermes-capability-enablement` | Enable Hermes Agent capabilities that ship disabled by default — native web_search (DDGS/Firecrawl/Tavily/etc.), speech-to-text / voice input (faster-whisper), voice mode, and other Tool Gateway features. Covers the correct venv, the config.yaml edit pattern (file-locked), and REAL verification. Use when the user says 'enable web search', 'turn on STT', 'add voice input', 'I don't have web_search', 'mejora tus herramientas', 'enable X capability', or asks to close a capability gap vs. the docs. |
-| `hermes-config-versioning` | Version and back up Hermes Agent's own configuration (skills, profiles, SOUL.md, memories, cron, kanban) with git while excluding secrets/state — plus a safe tar backup for the parts git must never track. Use when the user wants to protect their Hermes setup, recover from a bad update, snapshot a multi-profile configuration, or 'back up my hermes config'. |
+| `hermes-capability-enablement` | Enable Hermes Agent capabilities that ship disabled by default — native web_search (DDGS/Firecrawl/Tavily/etc.), speech-to-text / voice input (faster-whisper), voice mode, and other Tool Gateway features. Covers the correct venv, the config.yaml edit pattern (file-locked), and... |
+| `hermes-config-versioning` | Version and back up Hermes Agent's own configuration (skills, profiles, SOUL.md, memories, cron, kanban) with git while excluding secrets/state — plus a safe tar backup for the parts git must never track. Use when the user wants to protect their Hermes setup, recover from a ba... |
 | `hermes-health-check` | Check Hermes with real commands before saying it is broken. |
-| `hermes-mcp-integration` | Evaluate, install, and verify a third-party MCP server in Hermes Agent — npx/uvx/HTTP servers, config.yaml format, privacy flags, and the hermes mcp test verification loop. Use when the user asks to add/verify/recommend an MCP server (browser automation, filesystem, GitHub, databases, APIs) for Hermes. |
+| `hermes-mcp-integration` | Evaluate, install, and verify a third-party MCP server in Hermes Agent — npx/uvx/HTTP servers, config.yaml format, privacy flags, and the hermes mcp test verification loop. Use when the user asks to add/verify/recommend an MCP server (browser automation, filesystem, GitHub, da... |
 | `hermes-migration-restore` | Restore Hermes migration backup; fix cron/gbrain drift. |
 | `hermes-multi-agent` | Configure and verify Hermes multi-agent capabilities: activate MOA (Mixture of Agents) virtual provider, create specialized profiles with SOUL.md personas, and wire delegation/Kanban. Includes the factory-preset dead-model gotcha and the config.yaml file-lock workaround. |
 | `hermes-security-audit` | Audita configuración, skills, MCP y cron de Hermes. |
-| `hermes-self-audit` | Set up and operate a zero-cost self-audit watchdog for the Hermes ecosystem (skills, profiles, cron, memory, state.db, second brain) via a no_agent cron + a bash health script. Use when the user wants Hermes to 'watch itself', 'audit itself', 'stay in order', 'self-monitor', or 'optimize/clean up the agent setup'. |
+| `hermes-self-audit` | Set up and operate a zero-cost self-audit watchdog for the Hermes ecosystem (skills, profiles, cron, memory, state.db, second brain) via a no_agent cron + a bash health script. Use when the user wants Hermes to 'watch itself', 'audit itself', 'stay in order', 'self-monitor', o... |
 | `hermes-self-optimizing-loop` | Audits Hermes health and auto‑fixes common drifts. |
 | `hermes-skill-install-verify` | Install, debug, and verify Hermes Agent skills from the hub/official/clawhub registries on Windows — platform-exclusion pitfalls, binary prerequisites, dangerous-verdict blocks, and ad-hoc verification discipline. |
 | `hermes-skills-management` | Discover, evaluate, and install Hermes Agent skills (official hub, community repos, discovery hubs) and connect MCP servers — including the non-interactive install workaround required for automation/background runs. |
-| `hermes-telegram-gateway` | Link Hermes Agent to Telegram end-to-end: create the bot, write TELEGRAM_BOT_TOKEN into ~/.hermes/.env, enable gateway.platforms.telegram in config.yaml, run the gateway, and — the critical gotcha — configure the user allowlist so the bot does not deny every message. Use when the user says 'vincular a telegram', 'link to telegram', 'conectar bot', 'telegram gateway', or asks how to talk to Hermes from Telegram. |
-| `hub-skill-vetting` | Evaluate Hermes hub skills for safety, compatibility, and real usefulness BEFORE installing. Covers the resolver source-prefix quirk (install fails to match when display name has a space), the Windows 'platforms:' load-pitfall (skill installs but never appears in 'hermes skills list'), and a ToS/risk checklist for account- or broker-connected skills. Use whenever the user asks to install a hub skill, or before running 'hermes skills install <id>'. Pair with hermes-skill-install-verify for post-install checks. |
+| `hermes-skills-publication` | Publish a sanitized public GitHub mirror of Hermes skills. |
+| `hermes-telegram-gateway` | Link Hermes Agent to Telegram end-to-end: create the bot, write TELEGRAM_BOT_TOKEN into ~/.hermes/.env, enable gateway.platforms.telegram in config.yaml, run the gateway, and — the critical gotcha — configure the user allowlist so the bot does not deny every message. Use when ... |
+| `hub-skill-vetting` | Evaluate Hermes hub skills for safety, compatibility, and real usefulness BEFORE installing. Covers the resolver source-prefix quirk (install fails to match when display name has a space), the Windows 'platforms:' load-pitfall (skill installs but never appears in 'hermes skill... |
 | `memory-hitrate` | Use when auditing or measuring Hermes memory quality. |
 | `memory-layer-ops` | Store durable memory via the 3-layer memory bridge. |
 | `neko-monitor-status` | Monitorea la salud del contenedor Neko Master. |
-| `reply-closing-format` | Formato de cierre OBLIGATORIO al final de cada charla para este usuario. Cierra siempre con (1) recomendaciones de proximos pasos donde cada opcion lleva una breve explicacion del porqué, (2) un porcentaje de solidez/a-mejorar 0-100 como bateria con icono, y (3) semaforo para advertencias. No pidas confirmacion excesiva: propón y deja elegir. Usar SIEMPRE al terminar cualquier intercambio con este usuario. |
+| `reply-closing-format` | Formato de cierre OBLIGATORIO al final de cada charla para este usuario. Cierra siempre con (1) recomendaciones de proximos pasos donde cada opcion lleva una breve explicacion del porqué, (2) un porcentaje de solidez/a-mejorar 0-100 como bateria con icono, y (3) semaforo para ... |
 | `safe-autonomy-operations` | Opera autonomía segura con supervisión y límites duros. |
 | `third-party-skill-install` | > |
 
@@ -275,8 +281,8 @@
 | Skill | Descripción |
 |---|---|
 | `ai-gateway-integration` | Integrate AI gateways: triage, deploy, wire, verify. |
-| `chatgpt-web-bridge` | Bridge Hermes to the user's ChatGPT WEB account (chatgpt.com) to exercise capabilities Hermes lacks natively — e.g. image generation via the user's ChatGPT Go/Plus subscription. Covers extracting the session from saved page source, the requirements→sentinel→conversation call flow, why the local auth.json Bearer is insufficient, and the Obscura-browser fallback that needs no cookie extraction. Use when the user wants Hermes to "generate images / use my ChatGPT / drive my ChatGPT account / do X through my subscription". |
-| `gbrain` | Set up and wire GBrain (garrytan/gbrain) — a Postgres/pgvector knowledge brain with hybrid RAG, a self-wiring typed knowledge graph, and an LLM synthesis layer — into Hermes as a persistent-memory MCP server. Use when the user wants agent memory / a 'second brain', meeting prep, a queryable Obsidian vault, or references garrytan/gbrain. Covers the Windows native-bun gotcha, the embedding_model init pitfall, and local Ollama embeddings. |
+| `chatgpt-web-bridge` | Bridge Hermes to the user's ChatGPT WEB account (chatgpt.com) to exercise capabilities Hermes lacks natively — e.g. image generation via the user's ChatGPT Go/Plus subscription. Covers extracting the session from saved page source, the requirements→sentinel→conversation call f... |
+| `gbrain` | Set up and wire GBrain (garrytan/gbrain) — a Postgres/pgvector knowledge brain with hybrid RAG, a self-wiring typed knowledge graph, and an LLM synthesis layer — into Hermes as a persistent-memory MCP server. Use when the user wants agent memory / a 'second brain', meeting pre... |
 | `openai-compatible-api-testing` | Test OpenAI-compatible API gateways (custom base_url, key). |
 
 ## 🗂️ media
@@ -318,7 +324,7 @@
 | `model-router` | Elegir mejor modelo según la tarea (catálogo de gateways). |
 | `openmythos-rdt` | Looped transformers/RDT (OpenMythos): MLA, MoE, ACT. |
 | `rust-pyo3-accel` | >- |
-| `sd-forge-fork-customization` | Prune, customize, and wrap a Stable Diffusion WebUI Forge / Forge-Neo fork (e.g. gi0baro/forge-neo) into a minimal personal build, and expose it headlessly so an agent (Hermes) can drive image generation without a browser. Use when the user wants a "mini" / "ligero" Forge with fewer models, a lighter UI, or agent-operated generation over an existing fork. |
+| `sd-forge-fork-customization` | Prune, customize, and wrap a Stable Diffusion WebUI Forge / Forge-Neo fork (e.g. gi0baro/forge-neo) into a minimal personal build, and expose it headlessly so an agent (Hermes) can drive image generation without a browser. Use when the user wants a "mini" / "ligero" Forge with... |
 | `sdxl-checkpoint-merging` | >- |
 | `vram-watchdog` | Libera VRAM de modelos inactivos; recarga bajo demanda. |
 
@@ -334,12 +340,13 @@
 | Skill | Descripción |
 |---|---|
 | `obsidian` | Read, search, create, and edit notes in the Obsidian vault. |
+| `obsidian-cli` | Interactuar con vaults de Obsidian usando el CLI oficial `obsidian` para leer, crear, buscar y gestionar notas, tareas, propiedades y más. También soporta desarrollo de plugins/themes (reload, eval JS, screenshots, DOM). Usa cuando el usuario pida interactuar con su vault Obsi... |
 
 ## 🗂️ performance
 
 | Skill | Descripción |
 |---|---|
-| `python-hotpath-to-rust` | Acelera hot paths de Python en Rust SIN romper nada. Usar cuando un módulo Python de Hermes (o propio) tenga un cuello de botella aislable (loops sobre strings/listas, strip/trim, parsing, normalización, collapse de whitespace) y se quiera ganar velocidad compilando un .pyd con pyo3, manteniendo SIEMPRE fallback a Python puro y parity tests obligatorios. Aplica solo a funciones PURAS y pequeñas; NUNCA portar lógica de matching/difflib/mapeo de posiciones completa de golpe. El agente debe aplicar este flujo proactivamente en el futuro cada vez que detecte un hot path candidato en código Python que mantiene. |
+| `python-hotpath-to-rust` | Acelera hot paths de Python en Rust SIN romper nada. Usar cuando un módulo Python de Hermes (o propio) tenga un cuello de botella aislable (loops sobre strings/listas, strip/trim, parsing, normalización, collapse de whitespace) y se quiera ganar velocidad compilando un .pyd co... |
 
 ## 🗂️ productivity
 
@@ -434,11 +441,12 @@
 | `node-inspect-debugger` | Debug Node.js via --inspect + Chrome DevTools Protocol CLI. |
 | `ornith-code-audit` | Codigo abliterado: Ornith genera, Hermes audita y refuerza. |
 | `plan` | Plan mode: write an actionable markdown plan to .hermes/plans/, no execution. Bite-sized tasks, exact paths, complete code. |
-| `provider-session-reuse` | Reuse Hermes' already-authenticated provider sessions (e.g. the ChatGPT web session behind the openai-codex provider) to power custom tool scripts, instead of provisioning a separate API key. Covers reading Hermes credential stores (auth.json is blocked by read_file but readable via terminal), the openai-codex token shape, the ChatGPT image-generation gotchas, and the honest verification discipline for reverse-engineered endpoints. |
+| `ponytail` | Modo 'dev senior vago' para código: obliga a la solución más perezosa que funciona — cuestiona si el código es necesario (YAGNI), stdlib antes de custom, nativo antes de deps, una línea antes de cincuenta. Usa en CUALQUIER tarea de código (escribir, refactorizar, arreglar, rev... |
+| `provider-session-reuse` | Reuse Hermes' already-authenticated provider sessions (e.g. the ChatGPT web session behind the openai-codex provider) to power custom tool scripts, instead of provisioning a separate API key. Covers reading Hermes credential stores (auth.json is blocked by read_file but readab... |
 | `python-debugpy` | Debug Python: pdb REPL + debugpy remote (DAP). |
 | `python-version-provisioning` | Proyecto exige Python más nuevo que el host: usa uv run. |
 | `requesting-code-review` | Pre-commit review: security scan, quality gates, auto-fix. |
-| `rust-pyo3-python-accel` | Accelerate CPU-bound Python hot paths by porting them to Rust exposed via PyO3 + maturin. Covers candidate selection, the build workflow on Windows (MSVC linker shadowing pitfalls), UTF-8-correct string processing, and parity + benchmark verification. Use when the user wants to speed up Python code, especially repetitive/small hot paths in an agent, CLI, or tool. |
+| `rust-pyo3-python-accel` | Accelerate CPU-bound Python hot paths by porting them to Rust exposed via PyO3 + maturin. Covers candidate selection, the build workflow on Windows (MSVC linker shadowing pitfalls), UTF-8-correct string processing, and parity + benchmark verification. Use when the user wants t... |
 | `simplify-code` | Parallel 3-agent cleanup of recent code changes. |
 | `spike` | Throwaway experiments to validate an idea before build. |
 | `systematic-debugging` | 4-phase root cause debugging: understand bugs before fixing. |
