@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Skill Radar · 互联网技能情报站</title>
+  <link rel="stylesheet" href="styles.css?v=1.4.0">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Skill Radar 首页">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17"/><circle cx="24" cy="24" r="9"/><path d="M24 24 39 15"/><circle cx="38.5" cy="15.5" r="2.5"/></svg>
+        </span>
+        <span><b>SKILL</b><small>RADAR</small></span>
+      </a>
+
+      <nav class="nav" aria-label="主导航">
+        <button class="nav-item active" data-view="overview">
+          <span class="nav-icon">◉</span><span>雷达总览</span>
+        </button>
+        <button class="nav-item" data-view="watchlist">
+          <span class="nav-icon">⌁</span><span>观察清单</span><em id="watchCount">3</em>
+        </button>
+        <button class="nav-item" data-view="gaps">
+          <span class="nav-icon">◇</span><span>开发机会</span>
+        </button>
+      </nav>
+
+      <div class="side-section">
+        <p class="side-label">监测范围</p>
+        <label class="check-row"><input type="checkbox" checked data-source="official"><span>官方目录</span><i></i></label>
+        <label class="check-row"><input type="checkbox" checked data-source="directory"><span>社区目录</span><i></i></label>
+        <label class="check-row"><input type="checkbox" checked data-source="github"><span>GitHub</span><i></i></label>
+        <label class="check-row"><input type="checkbox" checked data-source="community"><span>社区信号</span><i></i></label>
+      </div>
+
+      <div class="side-card">
+        <span class="pulse-dot"></span>
+        <div>
+          <strong>本地模式</strong>
+          <p>数据只保存在当前浏览器</p>
+        </div>
+      </div>
+      <p class="version">Skill Radar · v1.4</p>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">INTERNET SKILL INTELLIGENCE</p>
+          <h1>今天，哪些 Skill 值得关注？</h1>
+          <p class="subhead">从热度中剥离噪音，把价值、证据和风险放在同一张图上。</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn ghost" id="exportBtn"><span>⇩</span> 导出快照</button>
+          <button class="btn ghost" id="openGithubSearch"><span>⌕</span> 搜索 GitHub</button>
+          <button class="btn ghost" id="openImport"><span>＋</span> 导入 JSON</button>
+          <button class="btn primary" id="refreshOnline"><span>↻</span> 立即联网更新</button>
+        </div>
+      </header>
+
+      <section class="notice service-notice" id="serviceNotice">
+        <div class="service-copy">
+          <i id="serviceDot"></i>
+          <div><span id="serviceLabel">正在连接</span><b id="serviceText">检查本地联网服务…</b></div>
+        </div>
+        <div class="service-actions">
+          <small id="nextRefresh">每日更新状态读取中</small>
+          <button id="scheduleBtn">启用每日任务</button>
+        </div>
+      </section>
+
+      <section class="kpis" aria-label="关键指标">
+        <article class="kpi">
+          <div class="kpi-icon blue">◎</div>
+          <div><p>追踪 Skill</p><strong id="totalKpi">0</strong><small id="totalDelta">本次扫描</small></div>
+          <span class="spark" id="totalSpark"></span>
+        </article>
+        <article class="kpi">
+          <div class="kpi-icon mint">✦</div>
+          <div><p>新发现</p><strong id="newKpi">0</strong><small class="positive">近 30 天</small></div>
+          <span class="spark mint" id="newSpark"></span>
+        </article>
+        <article class="kpi">
+          <div class="kpi-icon amber">↗</div>
+          <div><p>正在升温</p><strong id="risingKpi">0</strong><small class="positive">较上次</small></div>
+          <span class="spark amber" id="riseSpark"></span>
+        </article>
+        <article class="kpi">
+          <div class="kpi-icon violet">◆</div>
+          <div><p>平均价值</p><strong id="avgKpi">0</strong><small>满分 100</small></div>
+          <span class="spark violet" id="avgSpark"></span>
+        </article>
+      </section>
+
+      <section class="hero-grid">
+        <article class="panel radar-panel">
+          <div class="panel-head">
+            <div><p class="eyebrow">VALUE MAP</p><h2>价值雷达</h2></div>
+            <select id="radarSelect" aria-label="选择 Skill"></select>
+          </div>
+          <div class="radar-wrap">
+            <svg id="radarChart" viewBox="0 0 420 330" role="img" aria-label="Skill 多维价值雷达图"></svg>
+            <div class="radar-score">
+              <span>综合价值</span>
+              <strong id="radarScore">--</strong>
+              <em id="radarAction">待评估</em>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel signals-panel">
+          <div class="panel-head">
+            <div><p class="eyebrow">SIGNAL BOARD</p><h2>信号分布</h2></div>
+            <span class="updated" id="updatedAt">基线</span>
+          </div>
+          <div class="signal-stack" id="signalStack"></div>
+          <div class="risk-callout">
+            <span class="risk-shield">!</span>
+            <div><strong id="riskCount">0 个高风险候选</strong><p>热度不会抵消权限和供应链风险。</p></div>
+            <button id="showRisk">查看</button>
+          </div>
+          <div class="source-health" id="sourceHealth">
+            <span>联网源</span><strong>等待本地服务</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel history-panel">
+        <div class="panel-head">
+          <div><p class="eyebrow">TREND & VERSION WATCH</p><h2>趋势历史与技能更新</h2></div>
+          <span class="updated" id="updateSummary">等待第二期快照</span>
+        </div>
+        <div class="history-grid">
+          <div class="history-chart-wrap">
+            <div class="chart-legend"><span class="value-line">价值</span><span class="risk-line">风险</span></div>
+            <svg id="historyChart" viewBox="0 0 640 210" role="img" aria-label="所选 Skill 的价值与风险历史趋势"></svg>
+            <p class="history-empty" id="historyEmpty" hidden>继续每日更新后，这里会形成最多 30 次观测的趋势线。</p>
+          </div>
+          <div class="update-feed" id="updateFeed"></div>
+        </div>
+      </section>
+
+      <section class="panel ranking-panel">
+        <div class="panel-head ranking-head">
+          <div><p class="eyebrow">RANKING</p><h2>价值候选榜</h2></div>
+          <div class="filters">
+            <div class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="搜索名称、用途或作者"></div>
+            <select id="actionFilter" aria-label="按建议筛选">
+              <option value="all">全部建议</option>
+              <option value="adopt">优先采用</option>
+              <option value="test">沙箱测试</option>
+              <option value="watch">继续观察</option>
+              <option value="build">开发替代</option>
+              <option value="quarantine">隔离</option>
+            </select>
+            <select id="categoryFilter" aria-label="按领域筛选"><option value="all">全部领域</option></select>
+            <select id="platformFilter" aria-label="按平台筛选"><option value="all">全部平台</option></select>
+            <select id="valueFilter" aria-label="按价值区间筛选">
+              <option value="all">全部价值</option>
+              <option value="80-100">80–100</option>
+              <option value="60-79.99">60–79</option>
+              <option value="40-59.99">40–59</option>
+              <option value="0-39.99">0–39</option>
+            </select>
+            <button class="filter-reset" id="resetFilters">重置</button>
+          </div>
+        </div>
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="all">全部</button>
+          <button class="tab" data-tab="new">新发现</button>
+          <button class="tab" data-tab="rising">升温中</button>
+          <button class="tab" data-tab="updated">有新版本</button>
+          <button class="tab" data-tab="safe">低风险</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>SKILL</th><th>核心用途</th><th>价值</th><th>GITHUB / X 热度</th><th>风险</th><th>建议</th><th></th></tr></thead>
+            <tbody id="rankingBody"></tbody>
+          </table>
+        </div>
+        <div class="empty" id="emptyState" hidden>
+          <strong>没有匹配项</strong><p>换个筛选条件，雷达还在转。</p>
+        </div>
+      </section>
+
+      <section class="bottom-grid">
+        <article class="panel gap-panel">
+          <div class="panel-head">
+            <div><p class="eyebrow">BUILD GAPS</p><h2>值得开发的空白</h2></div>
+          </div>
+          <div id="gapList"></div>
+        </article>
+        <article class="panel prompt-panel">
+          <p class="eyebrow">NEXT SCAN</p>
+          <h2>让 Codex 继续扫描</h2>
+          <p>生成一条已经带好范围和输出格式的指令，复制后直接发给 Codex。</p>
+          <div class="prompt-box" id="promptText"></div>
+          <button class="btn primary wide" id="copyPrompt">复制扫描指令</button>
+        </article>
+      </section>
+
+      <footer>
+        <span>Skill Radar · 只做决策辅助，不自动安装候选 Skill</span>
+        <span id="footerMeta">演示快照</span>
+      </footer>
+    </main>
+  </div>
+
+  <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+  <aside class="drawer" id="detailDrawer" aria-hidden="true">
+    <button class="drawer-close" id="closeDrawer" aria-label="关闭详情">×</button>
+    <div id="drawerContent"></div>
+  </aside>
+
+  <div class="modal-backdrop" id="importModal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="importTitle">
+      <button class="modal-close" id="closeImport" aria-label="关闭">×</button>
+      <p class="eyebrow">IMPORT SNAPSHOT</p>
+      <h2 id="importTitle">导入扫描结果</h2>
+      <p>选择 Skill Radar 生成的 JSON，或直接粘贴内容。数据只保存在本地。</p>
+      <label class="drop-zone" for="fileInput">
+        <span>⇧</span><strong>选择 JSON 文件</strong><small>支持候选数组或包含 candidates 的快照</small>
+      </label>
+      <input id="fileInput" type="file" accept=".json,application/json" hidden>
+      <div class="or"><span>或粘贴 JSON</span></div>
+      <textarea id="jsonInput" placeholder='{"candidates": [...]}'></textarea>
+      <p class="form-error" id="importError" role="alert"></p>
+      <div class="modal-actions">
+        <button class="btn ghost" id="loadDemo">恢复演示数据</button>
+        <button class="btn primary" id="applyImport">应用数据</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="installModal" hidden>
+    <section class="modal install-modal" role="dialog" aria-modal="true" aria-labelledby="installTitle">
+      <button class="modal-close" id="closeInstall" aria-label="关闭">×</button>
+      <p class="eyebrow">GUARDED INSTALL</p>
+      <h2 id="installTitle">安装 Skill</h2>
+      <div class="install-summary" id="installSummary"></div>
+      <p class="target-label">选择安装位置</p>
+      <div class="target-grid">
+        <label class="target-card"><input type="radio" name="installTarget" value="codex" checked><span><b>Codex</b><small id="codexPath">~/.codex/skills</small></span></label>
+        <label class="target-card"><input type="radio" name="installTarget" value="hermes"><span><b>Hermes</b><small id="hermesPath">~/.hermes/skills</small></span></label>
+      </div>
+      <label class="install-confirm"><input type="checkbox" id="installConfirm"><span>我已查看该 Skill 的风险、权限和来源，同意写入本地技能目录。</span></label>
+      <p class="form-error" id="installError" role="alert"></p>
+      <div class="modal-actions">
+        <button class="btn ghost" id="cancelInstall">取消</button>
+        <button class="btn primary" id="applyInstall" disabled>确认安装</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="githubSearchModal" hidden>
+    <section class="modal github-search-modal" role="dialog" aria-modal="true" aria-labelledby="githubSearchTitle">
+      <button class="modal-close" id="closeGithubSearch" aria-label="关闭">×</button>
+      <p class="eyebrow">GITHUB SKILL SEARCH</p>
+      <h2 id="githubSearchTitle">搜索 GitHub 上的 Skill</h2>
+      <p>输入任务或领域关键词，例如 PDF、SEO、research、video。搜索会核验真实的 <code>SKILL.md</code>，并给出中文用途、价值和风险。</p>
+      <div class="github-query-row">
+        <input id="githubQuery" type="search" maxlength="80" placeholder="输入 Skill 关键词">
+        <button class="btn primary" id="runGithubSearch">搜索</button>
+      </div>
+      <p class="github-search-status" id="githubSearchStatus">仅搜索公开 GitHub 仓库；结果不会自动安装。</p>
+      <div class="github-results" id="githubResults"></div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js?v=1.4.0"></script>
+</body>
+</html>

@@ -71,3 +71,42 @@ resultado no cumple, o proponer alternativas ordenadas de mejor a menor.
 - [ ] Ordenar gratis primero (salvo tarea que justifique costo)
 - [ ] Local (Ollama) para privacidad, cloud para potencia
 - [ ] Saltar a siguiente si falla/lento
+
+## Cold-cache sentinel (portado de oh-my-openagent model-core / MIT)
+
+Patrón del pipeline de resolución de omo: **no elegir modelo con caches fríos.**
+
+Si el catálogo de un gateway (`GET <base_url>/models`) aún no está cargado, o si
+`availableModels` + `connectedProviders` están vacíos, la resolución **defiere**
+con `{skipped: true}` en lugar de adivinar — el agente espera a que el catálogo
+cargue antes de fijar un modelo, porque elegir con datos vacíos casi siempre
+elige mal.
+
+Aplicación en nuestro stack:
+- Antes de elegir, confirmar que el catálogo del gateway objetivo respondió
+  (no asumir 450+ modelos si el request falló o devolvió vacío).
+- Si el catálogo está vacío/fallido → NO fijar modelo; reintentar el catálogo o
+  pasar a un gateway cuyo catálogo sí respondió.
+- `fuzzy match`: omo empareja por **substring corto** (no solo prefijo), así
+  `glm-5.3-flash:high` cae en `glm-5.3-flash`. Variantes (`:free`, `:high`)
+  matchean el modelo base, nunca se degradan a una variante menor.
+
+## Retry guidance por patrones de error (portado de omo delegate-core / MIT)
+
+Cuando una delegación/request falla, omo clasifica el error contra patrones
+conocidos y emite **guía de corrección estructurada** (hint + opciones + ejemplo)
+en vez de un error crudo.
+
+Patrones que vale la pena reconocer en nuestro stack:
+| Patrón | Señal | Corrección |
+|---|---|---|
+| Rate limited | HTTP 429 / "rate limit" | bajar max_tokens, esperar, o usar variante free con límite alto |
+| Auth fallida | HTTP 401/403 / "invalid key" | verificar key del gateway, no reusar key caída |
+| Modelo inexistente | HTTP 404 / "model not found" | probar con request real antes; elegir modelo verificado |
+| Cuota free agotada | "free resources... only try N times" | usar modelo de pago o gateway con crédito |
+| Timeout | timeout / sin respuesta | modelo flash/turbo o tarea más corta |
+| Overload upstream | HTTP 5xx / "upstream" | saltar a siguiente modelo/gateway (no reintentar el mismo) |
+| Contexto excedido | "context length" / 402 max_tokens | recortar input, subir max_tokens, o modelo con ventana mayor |
+
+Regla: **clasificar el error ANTES de reintentar.** No reintentar a ciegas el
+mismo modelo que falló con 5xx — saltar al siguiente de la lista ordenada.

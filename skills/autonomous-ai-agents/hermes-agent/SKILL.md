@@ -818,6 +818,8 @@ First retry the command. If it repeats and the user explicitly asked to edit pro
 
 ### `execute_code` / Sandbox
 
+**Windows `resource` shadowing → gateway warning loop `module 'resource' has no attribute 'getrlimit'`.** If a pip `-e` install (editable) inside the Hermes venv points at a project folder that contains a `resource/` directory (e.g. VideoCaptioner), its `.pth` file injects that folder into `sys.path` and the folder shadows Python's stdlib on import attempts. Symptom: `errors.log` floods with `gateway.session: recovered state.db routing load failed: module 'resource' has no attribute 'getrlimit'` every ~5s; a plain REPL import then shows `resource.__file__ is None` (namespace package) with no `getrlimit`. Fix: find the culprit with `python -c "import resource; print(resource.__path__)"` from the Hermes venv, then rename the injecting `.pth` (e.g. `_editable_impl_*.pth` → `.pth.disabled`) — reversible, no uninstall needed. On Windows `import resource` SHOULD fail with ModuleNotFoundError; that is the healthy state.
+
 **WinError 10106** ("The requested service provider could not be loaded
 or initialized") from the sandbox child process — it can't create an
 `AF_INET` socket, so the loopback-TCP RPC fallback fails before

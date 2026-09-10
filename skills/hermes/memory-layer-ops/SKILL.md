@@ -76,6 +76,29 @@ source: hermes
 | Capturas rápidas | `00-Inbox/` |
 | Proyectos | `20-Proyectos/` |
 
+## Cuando la memoria rápida (Layer 3) llega al 100%
+
+La built-in memory se llena fácil (2.2K chars). La solución NO es borrar a ciegas:
+**mover los detalles operativos al vault y dejar solo punteros en la memoria rápida.**
+
+1. **Consolidar en el vault** una nota `reference` con todos los detalles que ya no
+   caben (paths, comandos, configs, rutinas):
+   ```bash
+   python "$LOCALAPPDATA/hermes/scripts/hermes_obsidian_bridge.py" remember \
+     "PUNTEROS OPERATIVOS: <detalle1>. <detalle2>. ..." --category reference --tags "operativo,consolidacion"
+   ```
+2. **Limpiar la memoria rápida** con un batch `memory` que elimina las entradas
+   operativas redundantes (ya en vault/skills) y agrega la nueva, todo en UNA llamada
+   `operations` (es atómico y chequea el límite solo al final).
+3. **Dejar solo punteros** en la memoria rápida: quien eres + decisiones clave; el
+   detalle técnico vive en vault (ilimitado) + skills.
+4. **Regla de oro**: memoria rápida = índices; vault+gbrain = detalle. Así no se
+   vuelve a llenar cada semana.
+
+> El tool `memory` avisa si un batch excede el límite y pide consolidar en la MISMA
+> llamada. Si dice "stop retrying" por exceso de reintentos en un turno, usar el vault
+> (bridge) como destino canónico y dejarlo para otro turno — no es pérdida.
+
 ## Pitfalls
 
 - **MSYS path**: en git-bash `/c/Users/...` → `C:\Users\...`. Preferir nativa.
@@ -90,6 +113,42 @@ source: hermes
 python "$LOCALAPPDATA/hermes/scripts/hermes_obsidian_bridge.py" health
 python "$LOCALAPPDATA/hermes/scripts/hermes_obsidian_bridge.py" recall "query de prueba"
 ```
+
+## gbrain — Búsquedas semánticas
+
+La bridge NO usa gbrain para recall (solo para sync). Para búsquedas semánticas:
+
+```bash
+# Verificar gbrain corriendo
+tasklist | findstr bun
+
+# Buscar con CLI directo
+cd %USERPROFILE%\mcp-servers\gbrain-server
+%USERPROFILE%\tools\bun.exe run src/cli.ts recall --query "modelo provider"
+
+# Si sources.default está vacío, configurar:
+gbrain config set sources.default obsidian-vault
+```
+
+### Troubleshooting común (2026-09-01)
+- `gbrain sync` falla con "single-writer lock": Matar PID y reiniciar con `self-upgrade`
+- Versiones distintas: `gbrain --version` vs `src/cli.ts` debe coincidir
+- `sources.default` vacío: Causa principal de búsquedas que retornan 0 resultados
+
+#### `sync-gbrain` → "Not inside a git repository: <vault>" (2026-09-09)
+El vault ES un repo git válido y `git rev-parse` CLI funciona; falla SOLO dentro del
+proceso `gbrain serve` (MCP del harness) cuando el bridge delega el sync por el lock
+PGLite. `discoverGitRoot` usa `silenceStderr` y mascara el error git real.
+- **Causa raíz**: el env del serve del harness hereda `GIT_DIR` apuntando a un `.git`
+  ajeno; git resuelve contra ese y no contra el vault → el fallo se enmascara.
+  Reproducir con `GIT_DIR=<path fake> git -C <vault> rev-parse --show-toplevel`.
+- **`GIT_DIR=""` NO neutraliza**: git trata set-vacío como set → también rompe.
+  Hay que UNSET o apuntar al `.git` real del vault (WORKAROUND, no fix limpio).
+- **WORKAROUND probado**: matar el serve del harness (taskkill /PID <N> /F con
+  `MSYS_NO_PATHCONV=1`) y correr `sync-gbrain` directo → exit 0. O lanzar serve con
+  env limpio. El harness respawna su serve polucionado, así que reaparece.
+- **Fix durable pendiente**: limpiar `GIT_DIR` en el bloque mcp.gbrain.env de
+  `config.yaml` del harness (se usa `SERVER` style; requiere tocar config global).
 
 ## Vault
 

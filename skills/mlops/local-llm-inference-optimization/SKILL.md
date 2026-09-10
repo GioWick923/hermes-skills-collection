@@ -20,6 +20,36 @@ metadata:
 - Tuning a llama-server launch for max tokens/s on NVIDIA Windows.
 - Any "model is slow" report where the fix is flags, runtime choice, or memory/VRAM coordination.
 
+## Engine options: Ollama vs llama.cpp vs ktransformers
+The engine choice is **3-way**, not 2-way. The deciding question is whether the model **fits in VRAM**:
+
+| Engine | Best for | When |
+|--------|----------|------|
+| **Ollama** | Models that fit in VRAM | Convenience, full offload, air-gapped |
+| **llama.cpp server** | Models that fit (~) + need MTP/speculative + full control | Speed tuning on a card |
+| **ktransformers** | **Models that DON'T fit** — huge MoE (100-400GB) on small VRAM + big RAM | Access to Qwen3-Next 235B, DeepSeek-R1 671B, Kimi-K2 |
+
+> **Key conceptual rule (user correction, 2026-09-01):** ktransformers does **NOT** speed up
+> models that already fit in VRAM — for those, Ollama/llama.cpp with full offload is equal or
+> better. ktransformers is about **access to 5-10x larger models**, not speed of existing ones.
+> When the user asks "does this improve our models?" the honest answer for fitting models is NO.
+
+### ktransformers (kvcache-ai) — heterogeneous CPU-GPU inference
+Runs MoE models by keeping **hot experts on GPU** (12GB) and **cold experts in CPU RAM** (96GB),
+via CPU-optimized MoE kernels. Windows native possible but heavy; see pitfalls below.
+
+- **Fits in VRAM** → Ollama/llama.cpp (don't reach for ktransformers)
+- **MoE that fits only in RAM** (Qwen3-Next 235B, DeepSeek-R1 671B) → ktransformers. Expect **~15-30 tok/s** for Qwen3-Next on 12GB+96GB Haswell; **~5-10 tok/s** for DeepSeek-R1 (CPU-bound).
+- **CPU bottleneck warning**: old server Xeons (Haswell E5-2678 v3, AVX2-only, no AVX512/AMX) cap decode speed. The marquee 227 tok/s benchmark uses 8×L20 + modern Xeon — NOT representative.
+
+Pitfalls (verified 2026-09-01):
+1. **PyPI wheel (`pip install kt-kernel`) is Linux-only** (manylinux_2_17). No Windows wheel.
+2. **Windows source build requires**: CUDA toolkit (nvcc), torch CUDA build, flash-attention (painful on Windows), MSVC. High risk / hours. **Not recommended on native Windows.**
+3. **Clean path on Windows = WSL2** (installed, v2, but only docker-desktop distro present — needs an Ubuntu distro). CUDA passthrough is native; the officially-supported `pip install kt-kernel` route works there (wheel ships static CUDA, no toolkit needed). Use the **LLAMAFILE backend** (GGUF) for AVX2-only CPUs — no weight conversion.
+4. **AMX/AVX512 native backends are useless on Haswell** (needs AMX or AVX512+BVNNI/BF16). Fall back to AVX2/LLAMAFILE.
+
+See `references/ktransformers-evaluation.md` for the full hardware-fit analysis and decision flow.
+
 ## Core decision: Ollama vs llama.cpp server
 - **Ollama**: convenient (`ollama create/modelfile`). Key Ollama parameters for speed:
   - `num_gpu <N>` — how many transformer layers to offload to GPU (default = all). Lower = more CPU, less VRAM for KV cache. Critical for 65K context on 12GB cards.
@@ -76,6 +106,49 @@ Measured on RTX 3060 12GB / 96GB RAM / Qwen3.8-27B 3.69bpw-MTP:
 - 12.6GB GGUF + 8192 KV cache does NOT fully fit in 12GB → CPU spill unavoidable → ~9-13 t/s ceiling.
 - Lowering context (`-c 4096`) frees VRAM for layers → small speed gain, shorter prompts.
 - Real step change needs 24GB VRAM (RTX 3090/4090) → full-GPU ~20-25 t/s with MTP.
+
+## Ollama daemon optimization on Windows (env vars + alias + verified setup)
+Proven 2026-09-03 on RTX 3060 12GB / Xeon 12-core / 96GB RAM with
+RootMonsteR/Qwen3-14B-Abliterated-GGUF:Q5_K_M (agent brain, tool-calling):
+
+**1. Set daemon env vars (User scope), then RESTART — they are read only at daemon start:**
+```powershell
+[Environment]::SetEnvironmentVariable('OLLAMA_FLASH_ATTENTION','1','User')      # less KV mem + faster
+[Environment]::SetEnvironmentVariable('OLLAMA_KV_CACHE_TYPE','q8_0','User')     # compressed KV → more ctx fits
+[Environment]::SetEnvironmentVariable('OLLAMA_MAX_LOADED_MODELS','2','User')    # e.g. 14B + vision co-resident
+[Environment]::SetEnvironmentVariable('OLLAMA_KEEP_ALIVE','30m','User')         # no cold reload between uses
+# Restart (taskkill //F fails through git-bash; use PowerShell):
+Stop-Process -Name 'ollama app','ollama' -Force; Start-Process 'C:\Users\<user>\AppData\Local\Programs\Ollama\ollama app.exe'
+```
+
+**2. Modelfile alias with agent-tuned params** (keeps source pull untouched):
+```
+FROM hf.co/RootMonsteR/Qwen3-14B-Abliterated-GGUF:Q5_K_M
+PARAMETER num_ctx 16384
+PARAMETER num_gpu 99        # all layers to GPU
+PARAMETER num_thread 12     # PHYSICAL cores, not logical (Xeon E5-2678v3: 12c/24t)
+PARAMETER temperature 0.6
+PARAMETER top_p 0.95
+PARAMETER top_k 20
+PARAMETER min_p 0.0
+```
+`ollama create qwen14-agent -f Modelfile` — temp/top_p/top_k/min_p are the RootMonsteR
+author's recommended tool-call sampling set.
+
+**3. Verify with a REAL tool-call, not just chat** — POST `/api/chat` with a `tools` array
+and measure `eval_count/eval_duration` (tok/s), `prompt_eval` speed, `load_duration`;
+then `GET /api/ps` for `size_vram` and `nvidia-smi` for actual occupancy.
+Measured result: 21.9 tok/s gen, 192.9 tok/s prompt eval, 8.5s cold load, 11.8/12.3GB VRAM,
+structured tool JSON ✅.
+
+**VRAM reality:** 10GB Q5_K_M weights + 16K KV (q8_0) ≈ 12.8GB total → ~1GB spills to RAM
+on a 12GB card; that is the 21.9 (not 30+) tok/s ceiling. Options to squeeze more: drop
+num_ctx to 8K, or accept it — Q4 restores fit but the author warns tool-call JSON fidelity
+degrades below Q5, which is worse for agents than 8 tok/s.
+
+**Pitfall — interrupted `ollama pull` leaves NOTHING installed** (no partial blob to resume
+from in `ollama list`): after any timeout/interrupt, verify with `ollama list` and re-pull
+in background before assuming the model exists.
 
 ## Support files
 - `references/benchmarks-rtx3060.md` — measured numbers per config, draft-acceptance details.

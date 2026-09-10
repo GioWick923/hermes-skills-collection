@@ -59,6 +59,26 @@ verificador estructural que sustituye al compilador que no existe.
    cuando `timeframe.in_seconds(tf) > timeframe.in_seconds()` es la convención
    estándar (evita el retraso de la alineación). No "arreglarlo" sin motivo.
 
+6. **Obtener el source de un script open-source de TradingView NO es scrapeable**
+   (verificado 2026-09-01 con VFP-Intro de ata_sabanci): la página carga el código
+   Pine por JavaScript y el endpoint del editor exige sesión autenticada. `curl`/
+   `web_extract`/`search_files` no lo devuelven, y los mirrors/GitHub del autor
+   suelen no existir. La única vía fiable es que el **usuario pegue el código**
+   (Source code → copiar) o que el agente use el browser con el "Allow" manual de
+   Chrome. No quemar tiempo en scraping; pedir el paste directamente. Un script
+   puede venir en 2+ mensajes si es largo — pedir el resto explícitamente si el
+   pegote se corta (p. ej. "pégame desde `float pMassB` hasta el final").
+
+7. **Motores de "buy/sell" en footprint NO son todos reales** (verificado en VFP-Intro):
+   un indicador de huella suele ofrecer 3 motores con fidelidades MUY distintas:
+   - **Geometric** = estima buy/sell por posición del close en el rango (heurística de
+     forma de vela → "order flow fake", educativo, no operativo).
+   - **Intrabar** = lee velas de TF inferior (datos reales, cobertura limitada por plan).
+   - **Footprint nativo** = datos reales por tick, SOLO en plan Premium/Ultimate.
+   Al portar a Python con OHLCV real (split direccional close>=open), se obtiene un
+   modelo honesto sin Premium. Detecta cuál motor está usando el script antes de
+   afirmar que su buy/sell es "real".
+
 ## Flujo recomendado
 1. Leer el archivo completo; mapear componentes (motor, filtros, MTF, screener, alertas).
 2. Detectar y corregir bugs ANTES de traducir (el fix toca código, la traducción solo strings).

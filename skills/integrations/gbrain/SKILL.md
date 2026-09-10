@@ -83,6 +83,19 @@ mcp_servers:
 - **`think` (LLM synthesis) needs a chat API key** (ANTHROPIC_API_KEY /
   OPENROUTER_API_KEY). Raw `search`/`query` work WITHOUT it. Set the key in the
   gbrain env or shell to enable the brain layer.
+- **PGLite is locked by the running `gbrain serve` — CLI writes fail while it's up.**
+  A separate CLI process (`import`, `sources`, `pages`, even `sources list`) cannot
+  open the brain while Hermes' `gbrain serve` MCP process holds the lock:
+  `"local database is already open through gbrain serve"`. The sanctioned write paths
+  while serve is live: (a) the MCP `put_page`/`capture` tools, or (b) `gbrain sync`
+  (serve-delegated over IPC socket). For a standalone Python bridge/script, use
+  `gbrain sync --source <id>` — it delegates to the live serve when present and runs
+  direct when it isn't. **Do NOT pass `--json` to sync**: serve-delegated sync rejects it
+  (`"--json" isn't supported through serve-delegated sync`); without `--json`, stdout is
+  human text + a trailing `{...}` JSON payload — parse the last balanced JSON object.
+  `gbrain sources add <id> --path <dir>` requires a **git-initialized repo with commits**
+  (git init + commit the dir first), and is itself a DB write blocked by the serve lock —
+  register sources while serve is stopped.
 - **`init` drops into an interactive skills menu in non-TTY.** Pass `--yes`; the
   brain is already created before the menu, so it's safe to ignore.
 - **Ollama installer URL:** the `.msi` path 404s. Use

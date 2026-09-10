@@ -41,3 +41,5 @@ How to verify that an OpenAI-compatible endpoint (custom `base_url` + `api_key`)
 
 ## References
 - `references/tokenrouter.md` — TokenRouter-specific quirks, observed catalogs, and error taxonomy.
+- `references/aihubmix-gateway.md` — AI HubMix gateway: endpoints, free GLM catalog, per-key whitelist/403, quota-exhaustion messages.
+- `references/cline-cli-gateway.md` — Connecting Cline CLI to a custom gateway: `openai-native` + Responses-vs-Chat-Completions trap; "configured ≠ working".

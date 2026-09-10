@@ -96,6 +96,14 @@ irreversible). Offer public / private / custom-name.
 - Re-scan, commit, push again.
 
 ## Pitfalls
+- **Skills en la raíz NO se publican (lección 2026-09-01).** `build_showcase.py` solo recorre
+  `skills/<categoría>/<skill>/` (subdirectorios físicos). Un skill creado en la raíz de
+  `$LOCALAPPDATA/hermes/skills/` con `category:` SOLO en frontmatter (p. ej. una skill nueva
+  escrita a `.../skills/<name>/SKILL.md`, o una instalada por un CLI de terceros como
+  `bsk install-skill`) **NO entra al catálogo ni al árbol publicado** aunque tenga categoría
+  en YAML. Diagnóstico: la skill falta en `.catalog.json` y en `skills/<cat>/`. Fix: moverla a
+  su carpeta-categoría física (`mv <skill> <categoría>/<skill>`) — la categoría física debe
+  coincidir con el frontmatter — y regenerar. Revisa `find $LOCALAPPDATA/hermes/skills -maxdepth 1 -type d` para skills huérfanas en la raíz antes de publicar.
 - **`git add -A` vs `.`**: use `.` — large dirs can trigger `mmap failed` on MSYS.
 - **Skills tree is huge** (GBs) — always build to a separate staging dir, never
   `cp -r` the live tree into the repo.

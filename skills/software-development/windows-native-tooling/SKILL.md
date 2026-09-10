@@ -92,6 +92,7 @@ Eso NO significa que Docker esté roto — solo que el daemon no ha arrancado.
 - Verificar con `docker info` (Server Version + "Operating System: Docker Desktop") antes de `compose up`.
 
 ## Pitfalls
+- **subprocess bajo el runner de cron (Windows): stdin=DEVNULL SIEMPRE.** El runner (libuv) puede pasar al hijo un stdhandle no-nulo INVÁLIDO (emite `warning: Making stdin inheritable failed`). Con `stdin=None`, subprocess incluye ese handle en el handle-list del nieto → `CreateProcess` falla con WinError 6 ('Controlador no válido'). Fix: `subprocess.run(..., stdin=subprocess.DEVNULL)` en todo script Python que lance binarios nativos desde cron. Caso real 2026-09-07: gbrain-sync-vault streak=4 (bridge → bun). El fix no cambia comportamiento interactivo (los CLIs no leen stdin).
 - **`docker compose up -d` dispara el guard de "servidor de primer plano"**: aunque `-d` es modo
   daemon y el comando retorna al terminar, el detector de la herramienta `terminal` lo marca como
   proceso largo. Ejecutarlo con `background=true` + `notify=true`, luego verificar readiness con

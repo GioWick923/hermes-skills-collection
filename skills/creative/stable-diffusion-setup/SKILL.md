@@ -70,9 +70,13 @@ venv/Scripts/pip install stringzilla --only-binary=:all:
 @echo off
 cd /d F:\ComfyUI
 call venv\Scripts\activate
-python main.py --listen --port 8188 --use-split-cross-attention --cpu-vae
+python main.py --listen --port 8388 --use-split-cross-attention --cpu-vae
 pause
 ```
+
+### ⚠️ Puerto 8188 puede estar BLOQUEADO por winnat (no es ComfyUI)
+
+Windows (winnat/Hyper-V) reserva rangos de puertos dinámicamente tras updates; si 8166–8265 queda reservado, el bind de 8188 lanza `PermissionError: [Errno 13] error while attempting to bind`. Diagnosticar con `netsh interface ipv4 show excludedportrange protocol=tcp` y elegir un puerto fuera de TODOS los rangos (8388 verificado funcionando). Los launchers `.bat` y los checks de esta skill usan :8388 por esto; :8188 en la documentación vieja de esta máquina ya no es fiable.
 
 ## Forge Neo Setup
 
@@ -92,6 +96,13 @@ set COMMANDLINE_ARGS=--xformers --opt-channelslast --pin-shared-memory --cuda-ma
 ## Operational Style (for this user)
 
 ⚠️ **This user expects autonomous, proactive behavior.** Do not wait to be asked to generate images — use ComfyUI and Forge APIs independently to illustrate concepts, express ideas, and enrich communication. The "pulpo" (octopus) philosophy: every skill, tool, and MCP is a tentacle — use them all without waiting for instructions. Generate images to demonstrate, explain, or beautify responses.
+
+### 🚫 Preferencia del usuario: Krea2 en ComfyUI, NO Forge
+
+Cuando el usuario pida clonar/generar con Krea2:
+- **SIEMPRE usar ComfyUI** (puerto 8188)
+- **NUNCA Forge** (puerto 7860) — el usuario ha corregido explícitamente: "NO QUIERO QUE USES FORGE, USA KREA AI DE CONFYUI"
+- Forge es para modelos SD/SDXL tradicionales, no para Krea2
 
 ### Personality in Conversation
 
@@ -406,6 +417,66 @@ TIPO usa GGUF `TIPO-v2.1-1B-A200M-f16.gguf` (KBlueLeaf) — requiere ComfyUI-GGU
 **Krea2**: `krea2_turbo_fp8_scaled.safetensors` (~13GB) es el checkpoint propio;
 el nodo es `krea2-svdquant`. Modelos Krea2 oficiales en `F:/ComfyUI/models/diffusion_models/`.
 
+## Adaptar workflows Krea2 comunitarios (editor format → ejecutable)
+
+Los workflows de Krea2 de Civitai (ej. `easyKREA2WorkflowLORA_v4`) vienen en
+**formato editor** (top-level `nodes`/`links`), NO API. Al adaptarlos:
+
+1. **Nodos con type UUID** (`527064ad-...`, `b645a6b8-...`) = **componentes embebidos**
+   definidos en `definitions.subgraphs` del JSON (feature ComfyUI 0.33+). NO son
+   nodos rotos — son subgraphs que cargan UNET+CLIP+VAE (+EmptyLatent, +merge).
+   Se editan sus `widgets_values` como cualquier nodo (unet_name, clip_name, vae_name...).
+2. **`ClownsharKSampler_Beta`** viene de **RES4LYF** (ClownsharkBatwing/RES4LYF):
+   `git clone --depth 1 https://github.com/ClownsharkBatwing/RES4LYF custom_nodes/`
+   + `pip install -r RES4LYF/requirements.txt` (con el python del venv).
+3. **`TextGenerate`** es nodo **built-in de ComfyUI core** (`comfy_extras/nodes_textgen.py`)
+   — NO instalar nada. Requiere un CLIP **generativo** (Gemma/Qwen) en text_encoders;
+   en estos workflows es el "prompt enhancer" OPCIONAL (los prompts ya vienen en los
+   CLIPTextEncode positive). Sin Gemma descargado → bypass/bypass del TextGenerate.
+4. **`Fast Groups Bypasser (rgthree)`** es una **extensión UI**, no un nodo ejecutable —
+   no aparece en `/object_info` y NO bloquea nada.
+
+### Pitfalls API (validados con errores reales)
+
+- `sampler_mode` de ClownsharKSampler_Beta en API solo acepta
+  `['unsample','standard','resample']`. El editor guarda `randomize`/`fixed` como
+  control de seed del widget → al convertir a API usar `sampler_mode: "standard"`
+  y poner el seed en su propio campo. Error si no: `value_not_in_list`.
+- `ImageUpscaleWithModel` requiere input **`upscale_model`** (NO `model`).
+  Error si no: `required_input_missing`.
+- Parsear `/object_info/X` combos como `["COMBO", {"multiselect":false,"options":[...]}]`
+  → leer `[1]["options"]`, no `[0]` (que es el literal "COMBO").
+- Upscalers: si `F:/Modelos/upscale_models/` no se ve aunque `extra_model_paths.yaml`
+  lo mapee, copiar el .pth a la carpeta FÍSICA `F:/ComfyUI/models/upscale_models/`
+  (crear con `mkdir -p`) — verificado que resuelve options vacío.
+
+### Mapeo modelos BF16 → FP8 (solo tienes FP8)
+
+| Workflow pide | Usar |
+|---|---|
+| `Krea2\Krea2_Turbo_BF16.safetensors` | `krea2_turbo_fp8_scaled.safetensors` |
+| `Krea2_qwen3vl_4b_bf16.safetensors` | `qwen3vl_4b_fp8_scaled.safetensors` |
+| `KREA2_qwen_image_vae.safetensors` | `qwen_image_vae.safetensors` |
+| `Krea2\Krea2_DarkBeast30BF16INT8.safetensors` | no lo tienes → apuntar al FP8 (pero el merge V4 necesita 2 modelos distintos REALES) |
+
+### Dejar una variante como default (modo 0/4)
+
+Para activar solo una cadena en el JSON editor: nodos de la cadena objetivo →
+`"mode": 0`; TODOS los demás nodos ejecutables → `"mode": 4` (bypass); notas/UI
+(MarkdownNote, Note, PreviewAny, Fast Groups Bypasser, Image Comparer) → dejar igual.
+Verificar que ningún nodo activo depende de uno bypassed (BFS por links).
+
+Detalle completo de sesión (anatomía V1-V4, workflows API reconstruidos, timings):
+`references/krea2-workflow-adaptation.md`
+
+### Pitfall 6: Krea2StyleReferenceNode requiere auth de ComfyAPI
+
+El nodo `Krea2StyleReferenceNode` tiene dos inputs ocultos que requieren credenciales:
+- `auth_token_comfy_org`
+- `api_key_comfy_org`
+
+Sin auth configurada, el nodo no funciona. Para clonar imágenes sin auth, usar workaround con `LoadImage` + `VAEEncode` + `KSampler` con `denoise` bajo (~0.45). Ver `references/krea2-style-clone.md`.
+
 ## Extraer workflow embebido en imagen
 
 Si el usuario comparte una imagen de Civitai/tensor.art y quiere el workflow,
@@ -421,6 +492,13 @@ Cadena concreta de merges NDREAM que Gio aprobó y sus pesos en
 
 
 Both ComfyUI and Forge Neo support checkpoint merging, with different levels of control.
+
+### 🚫 Preferencia del usuario: Krea2 en ComfyUI, NO Forge
+
+Cuando el usuario pida clonar/generar con Krea2:
+- **SIEMPRE usar ComfyUI** (puerto 8188)
+- **NUNCA Forge** (puerto 7860) — el usuario ha corregido explícitamente: "NO QUIERO QUE USES FORGE, USA KREA AI DE CONFYUI"
+- Forge es para modelos SD/SDXL tradicionales, no para Krea2
 
 ### ⚠️ Regla de oro: solo se mezclan arquitecturas iguales
 
@@ -552,6 +630,19 @@ El error más común en 12GB no es VRAM — es **pinned memory**. ComfyUI page-l
 
 Repositorios: `Abiray/MiniMax-H3-Pruned-GGUF` (UNet), `Abiray/MiniMax-H3-GGUF` (encoder), `Comfy-Org/MiniMax-H3` (VAEs + LoRA). Custom nodes: `ComfyUI-GGUF` + `ComfyUI-MiniMax-H3-Turbo`. Workflow desde Template Library → Video → MiniMax H3, reemplazar loaders por GGUF.
 
+## Flujo UltraReal Krea2→Klein (receta canónica) y pits de modelos nuevos
+
+Receta oficial (repo paxvel1/ComfyUI-UltraReal-Workflows): etapa 1 **Krea2 Turbo** genera la base fotorrealista (LoRA `Famegrid-Standard-Krea-2` @ 0.9) → etapa 2 **Flux 2 Klein** edita por instrucción: `"Upscale the image in high definition, restore realistic skin texture, remove plastic looking skin, keep the entire image content unchanged."`. El realismo VIENE del checkpoint base (Krea2/RealVisXL); Klein solo restaura piel. Invertir el orden de responsabilidades (negativos fuertes, IPAdapter fuerte) NO convierte anime en foto.
+
+- **Inventario antes de descargar**: al retomar un flujo, auditar `/object_info` + `find /f/ -maxdepth 5 -iname "<piezas>"` ANTES de bajar nada — y proponer el plan de descargas al usuario antes de ejecutarlo (>1 GB). En esta máquina faltaban solo UNET Klein + encoder `qwen_3_8b` + `flux2-vae` + LoRA Famegrid; Krea2/encoder/VAE ya estaban.
+- **Klein en 12 GB**: vía GGUF unsloth — `flux-2-klein-9b-Q3_K_M` (4.8 GB) recomendado sobre 4B-Q8 (4.3 GB): más capacidad gana a cuantización limpia en este rango. Encoder `qwen_3_8b` Q4 va a CPU/RAM (100 GB disponibles).
+- **Verificar soporte GGUF antes de bajar**: `grep IMG_ARCH_LIST /f/ComfyUI/custom_nodes/ComfyUI-GGUF/loader.py` — ComfyUI core puede traer la arquitectura nativa (`flux2` en CLIPLoader/Flux2Scheduler de 0.33) mientras la lista GGUF del custom node NO la incluye; GGUF de arch no listada no carga. Parchear la línea o usar safetensors fp8 con offload.
+- **Familias**: NDREAM/noobIPAMARK1/openpose-noobaiXL = lineaje NoobAI/Illustrious (anime). Para fotorealismo con ControlNet/IPAdapter SDXL usar checkpoint fotorreal SDXL (RealVisXL V5.0); Realistic Vision/EpicRealism clásicos son SD1.5 y NO mezclan con el stack SDXL ya instalado.
+- **IPAdapter con fuente anime**: peso ≤0.5 y end_at ~0.5 — a 0.85 transfiere el ESTILO anime, no la identidad (verificado 2 corridas). El rostro lo preserva ControlNet pose + prompt.
+- **IPAdapter `noobIPAMARK1` exige CLIP Vision ViT-bigG** (SDXL-era); con ViT-H falla `size mismatch for proj.weight (1280 vs 1024)`. Los clip_vision viven en `F:/ComfyUI/models/clip_vision/` (ViT-bigG y ViT-H ya descargados y verificados).
+- **safetensors corrupto**: carga fallando con `SafetensorError: incomplete metadata, file not fully covered` = descarga truncada (comparar bytes vs Content-Length del HEAD). Borrar, re-bajar, verificar antes de culpar al nodo.
+- **Descargas HF en esta máquina**: curl de git-bash recibe 0 bytes del CDN xet de HuggingFace; usar streaming con urllib de Python + header User-Agent (15 MB/s estable, verificado en 3 archivos grandes).
+
 ## Technology-Currency Directive
 
 La información técnica tiene fecha de caducidad. Una fuente certificada de 2023 puede estar más obsoleta que un foro de 2026. **Priorizar:**
@@ -568,7 +659,7 @@ Archivo completo en Obsidian: `Memorias/Agente/Directiva-Vigencia-Tecnologica.md
 
 ## Verification Checklist
 
-- [ ] ComfyUI arranca: `curl http://localhost:8188/system_stats` → JSON
+- [ ] ComfyUI arranca: `curl http://localhost:8388/system_stats` → JSON (si el bind falla, revisar rangos reservados de winnat, ver arriba)
 - [ ] Forge arranca: `curl http://localhost:7860/` → HTML
-- [ ] Modelos visibles en ambos UIs
+- [ ] Modelos visibles en ambos UIs — auditoría autoritativa vía `/object_info` (las listas de cada loader = lo que realmente ve ComfyUI; el disco puede tener de más o de menos)
 - [ ] Generación de prueba funciona (SDXL 1024², ~25s en RTX 3060)

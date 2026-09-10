@@ -69,6 +69,13 @@ velocidad casi completa. Usar `ngl 99` (llama-server) o `num_gpu 999` (Ollama) p
 **Para MoE específicamente**: Priorizar cuantizaciones IQ sobre Q en MoE (IQ maneja mejor
 la distribución de expertos). Usar `fused_moe=1` en llama-server para aceleración MoE.
 
+### 2b. Inferencia heterogénea (ktransformers) — el cuello de botella es RAM, no VRAM
+Para correr MoE gigantes (DeepSeek-R1 671B, Qwen3-Next 235B) con poca VRAM, ktransformers
+mueve expertos "fríos" a RAM. La pregunta determinante es **¿cabe el modelo Q4 en tu RAM total?**
+(~0.55-0.6 GB/1B params totales). Con 96GB RAM: DS-R1 pide 382GB (NO), Qwen3-Next ~120GB (NO),
+solo Qwen2-57B-A14B (34GB) y Mixtral-8x22B (86GB) caben. Build en Windows es manual (cmake+MSVC,
+solo install.sh en Linux). Detalle completo: `references/ktransformers-heterogeneous-inference.md`.
+
 ### 3. Verificar arquitectura (compatibilidad con Ollama/llama.cpp)
 Revisar los tags del repo HF:
 - `gated-deltanet`, `hybrid-attention` → arquitectura **nueva**; Ollama 0.32.14 puede NO cargarla.

@@ -1,0 +1,448 @@
+1
+00:00:05,679 --> 00:00:12,539
+All right, welcome back to the gun bench. Today, this is going to be episode two.
+
+2
+00:00:13,880 --> 00:00:15,880
+We're going to build
+
+3
+00:00:15,880 --> 00:00:17,879
+the Smith & Wesson SD-9.
+
+4
+00:00:18,960 --> 00:00:23,000
+That's another pretty inexpensive, widely available
+
+5
+00:00:23,960 --> 00:00:27,440
+kit that you can either get from every gun part or gunbroker.
+
+6
+00:00:28,480 --> 00:00:32,820
+Today, I have a frame here printed in the translucent blue.
+
+7
+00:00:33,820 --> 00:00:35,820
+I think it's like Sunloo.
+
+8
+00:00:36,420 --> 00:00:43,820
+Years ago, we would have never used a translucent filament, but the filament science has come a
+
+9
+00:00:44,619 --> 00:00:52,219
+really long way since then, and this stuff comes in red and blue and clear, I think, and maybe even
+
+10
+00:00:52,939 --> 00:00:59,700
+another color or two, and it's pretty stout. So I've been super impressed with it.
+
+11
+00:01:00,340 --> 00:01:07,579
+You know, it's not for everybody, but it holds up really well. Not quite like carbon-fiber nylon.
+
+12
+00:01:07,579 --> 00:01:09,739
+This isn't the type of frame that you can leave in your glove box
+
+13
+00:01:11,219 --> 00:01:16,500
+during the summer, but you know, it is flashy and it's fine for range use or
+
+14
+00:01:17,340 --> 00:01:20,939
+having a nightstand. So anyways,
+
+15
+00:01:22,140 --> 00:01:27,040
+so yeah, we're going to build this gun, so let's get started.
+
+16
+00:01:28,040 --> 00:01:35,920
+Yeah, so this is just a piece of music wire, put the printed catch in,
+
+17
+00:01:36,959 --> 00:01:40,239
+take the music wire and slide it down into its place.
+
+18
+00:01:47,670 --> 00:02:03,769
+Really needs to go just a little bit lower. There we go. Let's see if we can get that to go in. All right, good deal.
+
+19
+00:02:05,609 --> 00:02:07,609
+All right, so in order to
+
+20
+00:02:08,129 --> 00:02:12,330
+to build one of these SD guns, you're going to need this. This is a
+
+21
+00:02:13,050 --> 00:02:15,050
+SD rail.
+
+22
+00:02:15,409 --> 00:02:22,770
+That Riptide rails sells. So the rear rail is actually built into the rear
+
+23
+00:02:23,689 --> 00:02:25,689
+sear assembly. And so
+
+24
+00:02:26,490 --> 00:02:28,330
+you order this from Riptide,
+
+25
+00:02:28,330 --> 00:02:33,729
+it goes in the front pocket of this frame right here, and it installs with a three millimeter
+
+26
+00:02:34,530 --> 00:02:37,250
+pin that comes with it.
+
+27
+00:02:47,879 --> 00:02:54,120
+If you have trouble getting these in, one thing I learned is you can take these pins. You can turn them
+
+28
+00:02:54,719 --> 00:02:56,719
+on a file.
+
+29
+00:02:57,039 --> 00:02:59,520
+Just on the end to give it a slight chamfer and
+
+30
+00:03:01,080 --> 00:03:03,080
+that helps it find its way.
+
+31
+00:03:03,879 --> 00:03:07,159
+Most of the time, they'll have a little bit of a fillet on there, but it's,
+
+32
+00:03:07,919 --> 00:03:09,919
+you know, it's pretty tame.
+
+33
+00:03:10,199 --> 00:03:12,439
+All right, then we're gonna put
+
+34
+00:03:14,039 --> 00:03:27,919
+this rear sear block in. Let's go ahead and put this rear pin in.
+
+35
+00:03:28,840 --> 00:03:33,159
+The sear pin is the one that looks like a roll pin. It's hollow in the middle.
+
+36
+00:03:34,520 --> 00:03:37,080
+As opposed to the trigger pin that's solid.
+
+37
+00:03:37,560 --> 00:03:56,020
+Yeah, I'm gonna have to drive that one a little bit. I noticed earlier that this was just a wee bit tight.
+
+38
+00:03:57,819 --> 00:04:33,779
+You have to be careful, but it never hurts to actually have a hard hammer
+
+39
+00:04:34,579 --> 00:04:36,079
+with some of these.
+
+40
+00:04:36,079 --> 00:04:47,019
+Heh. I'm gonna have to pull off camera for a second. I'm still working out the, working out the camera details.
+
+41
+00:04:47,620 --> 00:04:53,139
+So you get this roll pin installed.
+
+42
+00:04:54,579 --> 00:04:56,899
+Now it's time for the trigger group and the locking block.
+
+43
+00:04:57,699 --> 00:04:59,699
+So
+
+44
+00:04:59,699 --> 00:05:02,339
+you'll want to make note of a couple things.
+
+45
+00:05:03,939 --> 00:05:07,379
+Yeah, Smith and Wesson, it's really funny. They've held on to this
+
+46
+00:05:08,220 --> 00:05:10,379
+archaic trigger spring design right here.
+
+47
+00:05:13,959 --> 00:05:19,199
+What you'll do is when you put this in, you're gonna have to get the trigger pin not only through the,
+
+48
+00:05:19,720 --> 00:05:24,480
+you know, slide catch and the locking block, but you'll also have to get it through that ring.
+
+49
+00:05:25,199 --> 00:05:29,199
+If you're not really careful with that and you, you know, you kind of hand-fisted in there,
+
+50
+00:05:29,199 --> 00:05:32,959
+you can destroy that ring and you'll have to go buy another spring.
+
+51
+00:05:34,480 --> 00:05:39,740
+So, you know, it's good to at least watch what you're doing in that regard.
+
+52
+00:05:41,879 --> 00:05:47,660
+This little hook just kind of goes around this
+
+53
+00:05:49,139 --> 00:05:53,420
+back part here like that.
+
+54
+00:05:56,480 --> 00:06:01,220
+We're gonna drop in this and then we will take this
+
+55
+00:06:02,959 --> 00:06:04,959
+slide lock
+
+56
+00:06:05,480 --> 00:06:10,160
+and we're gonna, we'll basically slide it in next to the trigger underneath the locking block.
+
+57
+00:06:10,160 --> 00:06:18,379
+Now, usually what I like to do is I'll try to get a punch in there and
+
+58
+00:06:19,379 --> 00:06:21,379
+get it all kind of lined up.
+
+59
+00:06:21,620 --> 00:06:33,250
+It's especially critical with that ring.
+
+60
+00:07:07,930 --> 00:07:09,930
+Yeah, that's
+
+61
+00:07:10,730 --> 00:07:16,819
+So I have a, and this might, this might actually work.
+
+62
+00:07:17,980 --> 00:07:23,060
+It's just a piece of a music wire. What I'm trying to do
+
+63
+00:07:24,459 --> 00:07:52,310
+is I want to try to align that ring so that I can stab through the middle of it, almost.
+
+64
+00:07:53,350 --> 00:08:08,410
+There we go. All right now, that's lined up and not great.
+
+65
+00:08:09,129 --> 00:08:12,810
+So what I'm gonna do, we're gonna start this trigger pin.
+
+66
+00:08:13,810 --> 00:08:17,329
+It doesn't make a huge difference, but technically that
+
+67
+00:08:18,610 --> 00:08:23,050
+slot should go on the slide release side. It's meant to catch that
+
+68
+00:08:24,610 --> 00:08:37,519
+spring and you can usually push this. I don't know if you can see that, but the ring of the spring is
+
+69
+00:08:41,279 --> 00:08:43,279
+around my trigger pin.
+
+70
+00:08:43,759 --> 00:08:47,840
+Probably can't see it because this focus isn't great, but that's really what you're looking for.
+
+71
+00:08:48,320 --> 00:08:52,320
+And then you can, oh, I didn't get it through my slide lock.
+
+72
+00:08:53,480 --> 00:09:25,750
+That's all right.
+
+73
+00:09:25,909 --> 00:09:27,909
+A little bit more. Yeah, there we go.
+
+74
+00:10:02,990 --> 00:10:04,990
+All right now, I think that's got it.
+
+75
+00:10:13,539 --> 00:10:18,700
+Yeah, so that's a little bit tricky. The the wire spring is pushing this slide lock down,
+
+76
+00:10:18,700 --> 00:10:24,019
+so it's misaligned in that hole. So you need to, you know, there's a couple of ways to do this,
+
+77
+00:10:24,019 --> 00:10:29,779
+but if you get it where it's dragging on the end of that pin a little bit on the opposite side, you can
+
+78
+00:10:30,580 --> 00:10:34,179
+like what I did with that punch is you can lever it up. It kind of hangs
+
+79
+00:10:34,820 --> 00:10:36,820
+there enough for you to
+
+80
+00:10:37,580 --> 00:10:39,580
+push the pin forward.
+
+81
+00:10:39,580 --> 00:10:42,419
+Last step will be, before we install the slide,
+
+82
+00:10:43,100 --> 00:10:47,789
+is the...
+
+83
+00:10:49,149 --> 00:10:51,629
+Haha. It's gonna be the spring.
+
+84
+00:10:54,909 --> 00:10:56,909
+Oh yeah, here we go.
+
+85
+00:10:56,909 --> 00:10:59,309
+So this, okay, the spring that comes with this is a
+
+86
+00:11:02,269 --> 00:11:04,190
+one of those like flat leaf springs.
+
+87
+00:11:04,789 --> 00:11:09,070
+This uses, you know, basically like the, I don't know, what is it, a Gen 5
+
+88
+00:11:09,629 --> 00:11:11,230
+coil spring.
+
+89
+00:11:11,230 --> 00:11:14,070
+This is a really mangled example of one
+
+90
+00:11:16,429 --> 00:11:18,429
+because it's just what I had laying around.
+
+91
+00:11:19,429 --> 00:11:26,809
+And it was working, but it's pretty deformed and it's, you know, it works, but it's not great.
+
+92
+00:11:27,269 --> 00:11:32,629
+So what I'm gonna do is I'm gonna kind of push that down into the
+
+93
+00:11:33,669 --> 00:11:36,789
+recess and then we're gonna slide this in over the spring.
+
+94
+00:11:37,590 --> 00:11:42,970
+There is a lip here on this takedown lever that faces
+
+95
+00:11:43,590 --> 00:11:47,309
+back towards the back of the gun. If this is facing the wrong way,
+
+96
+00:11:47,990 --> 00:11:50,389
+your barrel's not gonna lock
+
+97
+00:11:51,950 --> 00:11:55,830
+when the slide shuts. It's gonna want, it'll try to bump over this. So
+
+98
+00:11:56,429 --> 00:12:00,909
+what we do is we kind of start it over the top of the spring there and
+
+99
+00:12:03,389 --> 00:12:12,809
+you take a small screwdriver and kind of push it down just to get it, get the shoulder of it started. There we go. And then
+
+100
+00:12:14,049 --> 00:12:16,049
+yeah, get it into place.
+
+101
+00:12:17,809 --> 00:12:19,809
+And once we do that, we can put this on
+
+102
+00:12:23,769 --> 00:12:28,450
+just as a commentary. These are convertible to run on
+
+103
+00:12:29,490 --> 00:12:32,490
+these are close enough that you can convert these to run on Glock Lowers.
+
+104
+00:12:33,370 --> 00:12:36,250
+I have a guide out to do that and we'll do that one day.
+
+105
+00:12:41,980 --> 00:12:43,340
+And there you go.
+
+106
+00:12:45,019 --> 00:12:45,820
+That's a
+
+107
+00:12:46,899 --> 00:12:53,659
+Glock Mag SD9. Those kits, you know, they're usually around a hundred bucks, maybe a little less.
+
+108
+00:12:55,820 --> 00:13:01,419
+Not as cheap as the SR guns, but you know, if you keep your eyes open, you can catch a deal.
+
+109
+00:13:01,779 --> 00:13:03,100
+And
+
+110
+00:13:03,100 --> 00:13:05,100
+you know, they're good guns.
+
+111
+00:13:05,820 --> 00:13:07,820
+Anyways,
+
+112
+00:13:08,379 --> 00:13:10,379
+I hope you enjoyed this. We'll see you next time.
+

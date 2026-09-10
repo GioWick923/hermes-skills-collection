@@ -1,0 +1,448 @@
+1
+00:00:05,679 --> 00:00:12,539
+Muy bien, bienvenidos de nuevo al banco de armas. Hoy será el segundo episodio.
+
+2
+00:00:13,880 --> 00:00:15,880
+Vamos a montar
+
+3
+00:00:15,880 --> 00:00:17,879
+el Smith & Wesson SD-9.
+
+4
+00:00:18,960 --> 00:00:23,000
+Es otro kit bastante económico y fácil de conseguir,
+
+5
+00:00:23,960 --> 00:00:27,440
+ya sea en Every Gun Part o en GunBroker.
+
+6
+00:00:28,480 --> 00:00:32,820
+Hoy tengo aquí un armazón impreso en azul translúcido.
+
+7
+00:00:33,820 --> 00:00:35,820
+Creo que es de Sunloo.
+
+8
+00:00:36,420 --> 00:00:43,820
+Hace años, nunca habríamos usado un filamento translúcido, pero la ciencia de los filamentos ha
+
+9
+00:00:44,619 --> 00:00:52,219
+avanzado muchísimo desde entonces, y este material viene en rojo, azul y transparente, creo, y tal vez
+
+10
+00:00:52,939 --> 00:00:59,700
+uno o dos colores más, y es bastante resistente. Así que estoy muy impreso con él.
+
+11
+00:01:00,340 --> 00:01:07,579
+Ya saben, no es para todo el mundo, pero aguanta muy bien. No es como el nailon de fibra de carbono.
+
+12
+00:01:07,579 --> 00:01:09,739
+Este no es el tipo de armazón que puedes dejar en la guantera
+
+13
+00:01:11,219 --> 00:01:16,500
+durante el verano, pero bueno, es llamativo y está bien para usar en el campo de tiro o
+
+14
+00:01:17,340 --> 00:01:20,939
+para tenerlo en la mesita de noche. En fin,
+
+15
+00:01:22,140 --> 00:01:27,040
+así que sí, vamos a montar esta arma, así que empecemos.
+
+16
+00:01:28,040 --> 00:01:35,920
+Sí, esto es solo un trozo de alambre de piano, coloca el retén impreso,
+
+17
+00:01:36,959 --> 00:01:40,239
+toma el alambre de piano y deslízalo en su lugar.
+
+18
+00:01:47,670 --> 00:02:03,769
+Realmente necesita bajar un poco más. Ahí está. Veamos si podemos hacer que encaje. Muy bien, perfecto.
+
+19
+00:02:05,609 --> 00:02:07,609
+Muy bien, para poder
+
+20
+00:02:08,129 --> 00:02:12,330
+montar uno de estos SD, vas a necesitar esto. Esto es un
+
+21
+00:02:13,050 --> 00:02:15,050
+Riel SD.
+
+22
+00:02:15,409 --> 00:02:22,770
+Ese riel de Riptide se vende. Así que el riel clausesero está integrado en el conjunto del sear trasero.
+
+23
+00:02:23,689 --> 00:02:25,689
+Y por eso
+
+24
+00:02:26,490 --> 00:02:28,330
+cuando pides esto a Riptide,
+
+25
+00:02:28,330 --> 00:02:33,729
+va en el bolsillo pitcherero de este worksheet de aquí, y se instala con un pasador
+
+26
+00:02:34,530 --> 00:02:37,250
+de tres milímetros que viene con él.
+
+27
+00:02:47,879 --> 00:02:54,120
+Si tienes problemas para colocarlos, algo que aprendí es que puedes tomar estos confinementadores. Puedes fundamentallyirlos
+
+28
+00:02:54,719 --> 00:02:56,719
+en una lima.
+
+29
+00:02:57,039 --> 00:02:59,520
+Solo en la punta para darle un ligero chaflán y
+
+30
+00:03:01,080 --> 00:03:03,080
+eso ayuda a que encuentre su camino.
+
+31
+00:03:03,879 --> 00:03:07,159
+La mayoría de las veces, traen un pequeño redondeo, pero es,
+
+32
+00:03:07,919 --> 00:03:09,919
+ya sabes, es bastanteAndrew kdy.
+
+33
+00:03:10,199 --> 00:03:12,439
+Muy bien, ahora vamos a poner
+
+34
+00:03:14,039 --> 00:03:27,919
+este bloque del sear trasero. Vamos a poner este confinementador trasero.
+
+35
+00:03:28,840 --> 00:03:33,159
+El confinementador del sear es el que parece un confinementadorAndrew de presión. Es hueco por el medio.
+
+36
+00:03:34,520 --> 00:03:37,080
+A diferencia del confinementador del worksheet que es sólido.
+
+37
+00:03:37,560 --> 00:03:56,020
+Sí, voy a tener que darle un poco de golpe a ese. Noté antes que estaba unżaito apretado.
+
+38
+00:03:57,819 --> 00:04:33,779
+Hay que tener cuidado, pero nunca está de más usar un martillo
+
+39
+00:04:34,579 --> 00:04:36,079
+duro con algunos de estos.
+
+40
+00:04:36,079 --> 00:04:47,019
+Je. Voy a tener que salir de cámara un segundo. Todavía estoy ajustando los detalles de la cámara.
+
+41
+00:04:47,620 --> 00:04:53,139
+Así que instalas este pasador de rodillo.
+
+42
+00:04:54,579 --> 00:04:56,899
+Ahora es el momento del grupo del disparador y el bloque de cierre.
+
+43
+00:04:57,699 --> 00:04:59,699
+Así que
+
+44
+00:04:59,699 --> 00:05:02,339
+deberás tener en cuenta un par de cosas.
+
+45
+00:05:03,939 --> 00:05:07,379
+Sí, Smith & Wesson, es muy gracioso. Han mantenido este
+
+46
+00:05:08,220 --> 00:05:10,379
+diseño arcaico del resorte del disparador justo aquí.
+
+47
+00:05:13,959 --> 00:05:19,199
+Lo que tendrás que hacer es que, al poner esto, tendrás que pasar el pasador del disparador no solo por el,
+
+48
+00:05:19,720 --> 00:05:24,480
+ya sabes, retén de la corredera y el bloque de cierre, sino que también tendrás que pasarlo por ese anillo.
+
+49
+00:05:25,199 --> 00:05:29,199
+Si no tienes mucho cuidado con eso y, ya sabes, lo fuerzas a la fuerza,
+
+50
+00:05:29,199 --> 00:05:32,959
+puedes destruir ese anillo y tendrás que comprar otro resorte.
+
+51
+00:05:34,480 --> 00:05:39,740
+Así que, ya sabes, es bueno que al menos vigiles lo que haces en ese sentido.
+
+52
+00:05:41,879 --> 00:05:47,660
+Este pequeño gancho simplemente rodea esta
+
+53
+00:05:49,139 --> 00:05:53,420
+parte trasera, así.
+
+54
+00:05:56,480 --> 00:06:01,220
+Vamos a meter esto y luego tomaremos este
+
+55
+00:06:02,959 --> 00:06:04,959
+retén de la corredera
+
+56
+00:06:05,480 --> 00:06:10,160
+y básicamente lo deslizaremos junto al disparador, debajo del bloque de cierre.
+
+57
+00:06:10,160 --> 00:06:18,379
+Normalmente, lo que me gusta hacer es intentar usar un punzón ahí
+
+58
+00:06:19,379 --> 00:06:21,379
+para que todo quede alineado.
+
+59
+00:06:21,620 --> 00:06:33,250
+Es especialmente crítico con ese anillo.
+
+60
+00:07:07,930 --> 00:07:09,930
+Sí, eso es
+
+61
+00:07:10,730 --> 00:07:16,819
+Así que tengo un..., y esto podría, esto podría funcionar de verdad.
+
+62
+00:07:17,980 --> 00:07:23,060
+Es solo un trozo de alambre musical. Lo que intento hacer
+
+63
+00:07:24,459 --> 00:07:52,310
+es intentar alinear ese anillo para poder atravesar el medio, casi.
+
+64
+00:07:53,350 --> 00:08:08,410
+Ahí está. Muy bien, ahora está alineado, pero no es perfecto.
+
+65
+00:08:09,129 --> 00:08:12,810
+Así que lo que voy a hacer es empezar con este pasador del disparador.
+
+66
+00:08:13,810 --> 00:08:17,329
+No marca una gran diferencia, pero técnicamente esa
+
+67
+00:08:18,610 --> 00:08:23,050
+ranura debería ir en el lado del retén de la corredera. Está hecha para enganchar ese
+
+68
+00:08:24,610 --> 00:08:37,519
+resorte y normalmente puedes empujar esto. No sé si puedes verlo, pero el anillo del resorte está
+
+69
+00:08:41,279 --> 00:08:43,279
+alrededor de mi pasador del disparador.
+
+70
+00:08:43,759 --> 00:08:47,840
+Probablemente no se vea bien porque el enfoque no es muy bueno, pero eso es lo que hay que buscar.
+
+71
+00:08:48,320 --> 00:08:52,320
+Y luego puedes, oh, no he logrado pasarlo por el retén de la corredera.
+
+72
+00:08:53,480 --> 00:09:25,750
+No pasa nada.
+
+73
+00:09:25,909 --> 00:09:27,909
+Un poco más. Sí, ahí está.
+
+74
+00:10:02,990 --> 00:10:04,990
+Muy bien, creo que ya está.
+
+75
+00:10:13,539 --> 00:10:18,700
+Sí, eso es un poco complicado. El resorte de alambre está empujando el retén de la corredera hacia abajo,
+
+76
+00:10:18,700 --> 00:10:24,019
+así que está desalineado en ese orificio. Así que tienes que, ya sabes, hay un par de formas de hacerlo,
+
+77
+00:10:24,019 --> 00:10:29,779
+pero si logras que roce un poco el extremo de ese pasador en el lado opuesto, puedes
+
+78
+00:10:30,580 --> 00:10:34,179
+como hice yo con ese punzón, hacer palanca hacia arriba. Se queda ahí
+
+79
+00:10:34,820 --> 00:10:36,820
+lo suficiente como para que puedas
+
+80
+00:10:37,580 --> 00:10:39,580
+empujar el pasador hacia adelante.
+
+81
+00:10:39,580 --> 00:10:42,419
+El último paso será, antes de instalar la corredera,
+
+82
+00:10:43,100 --> 00:10:47,789
+es el...
+
+83
+00:10:49,149 --> 00:10:51,629
+Jaja. Será el resorte.
+
+84
+00:10:54,909 --> 00:10:56,909
+Oh sí, aquí vamos.
+
+85
+00:10:56,909 --> 00:10:59,309
+Así que esto, vale, el resorte que viene con esto es como
+
+86
+00:11:02,269 --> 00:11:04,190
+uno de esos resortes de lámina plana.
+
+87
+00:11:04,789 --> 00:11:09,070
+Este usa, ya sabes, básicamente como, no sé, ¿qué es?, un resorte
+
+88
+00:11:09,629 --> 00:11:11,230
+helicoidal de Gen 5.
+
+89
+00:11:11,230 --> 00:11:14,070
+Este es un ejemplo muy deformado de uno
+
+90
+00:11:16,429 --> 00:11:18,429
+porque es lo que tenía por aquí.
+
+91
+00:11:19,429 --> 00:11:26,809
+Y funcionaba, pero está bastante deformado y, ya sabes, funciona, pero no está bien.
+
+92
+00:11:27,269 --> 00:11:32,629
+Así que lo que voy a hacer es empujarlo hacia el
+
+93
+00:11:33,669 --> 00:11:36,789
+hueco y luego deslizaremos esto sobre el resorte.
+
+94
+00:11:37,590 --> 00:11:42,970
+Hay un reborde aquí en esta palanca de desmontaje que apunta
+
+95
+00:11:43,590 --> 00:11:47,309
+hacia la parte trasera del arma. Si esto apunta hacia el lado equivocado,
+
+96
+00:11:47,990 --> 00:11:50,389
+el cañón no va a encajar
+
+97
+00:11:51,950 --> 00:11:55,830
+cuando la corredera cierre. Intentará saltar sobre esto. Así que
+
+98
+00:11:56,429 --> 00:12:00,909
+lo que hacemos es empezar por encima del resorte y
+
+99
+00:12:03,389 --> 00:12:12,809
+con un destornillador pequeño lo empujas para que asiente el borde. Ahí está. Y luego
+
+100
+00:12:14,049 --> 00:12:16,049
+sí, lo colocas en su sitio.
+
+101
+00:12:17,809 --> 00:12:19,809
+Y una vez que hagamos eso, podremos poner esto
+
+102
+00:12:23,769 --> 00:12:28,450
+solo como un comentario. Estos son convertibles para funcionar con
+
+103
+00:12:29,490 --> 00:12:32,490
+estos son lo suficientemente cercanos como para que puedas convertirlos para que funcionen en Glock Lowers.
+
+104
+00:12:33,370 --> 00:12:36,250
+Tengo una guía para hacer eso y lo haremos algún día.
+
+105
+00:12:41,980 --> 00:12:43,340
+Y ahí lo tienen.
+
+106
+00:12:45,019 --> 00:12:45,820
+Eso es un
+
+107
+00:12:46,899 --> 00:12:53,659
+Glock Mag SD9. Esos kits, ya sabes, suelen costar unos cien dólares, tal vez un poco menos.
+
+108
+00:12:55,820 --> 00:13:01,419
+No son tan baratos como las pistolas SR, pero ya sabes, si estás atento, puedes encontrar una oferta.
+
+109
+00:13:01,779 --> 00:13:03,100
+Y
+
+110
+00:13:03,100 --> 00:13:05,100
+ya sabes, son buenas pistolas.
+
+111
+00:13:05,820 --> 00:13:07,820
+En fin,
+
+112
+00:13:08,379 --> 00:13:10,379
+espero que hayan disfrutado esto. Nos vemos la próxima vez.
+

@@ -51,3 +51,65 @@ Regla cfg-distilled: **cfg=1.0**, 8 steps, sampler `euler`, scheduler `simple`. 
 ## Limpieza (lo que se borró esta sesión)
 MiniMax H3 (user-data, autorizado): `custom_nodes/ComfyUI-MiniMax-H3-Turbo`, `models/text_encoders/qwen3vl_32b_minimax_h3-Q4_K_M.gguf` (14G), `models/unet/MiniMax-H3-FL2VA-Pruned-Q3_K_M.gguf` (8.3G), `models/vae/minimax_h3_audio_vae_fp32.safetensors` (578M), `models/vae/minimax_h3_video_vae_fp16.safetensors` (4.9G). Liberó ~27 GB en F:.
 ⚠️ NO borrar los archivos MiniMax que están dentro del código core de ComfyUI (`comfy/ldm/minimax/`, `comfy/text_encoders/minimax.py`, `venv/.../transformers/models/minimax*`) — son parte nativa de ComfyUI, pesan KB y borrarlos rompe el programa.
+
+---
+
+## Workflow easyKREA2 v4 (RES4LYF) — adaptación + pitfalls (sesión 2026-09-01)
+
+Workflow de la comunidad en **formato editor** (84 nodos, `last_node_id` 387) con 4 variantes
+V1–V4. Adaptado y verificado en RTX 3060 12GB / ComfyUI 0.33.0.
+
+### Estructura (importante)
+- Usa **componentes embebidos** (`definitions.subgraphs`). Los loaders NO son `UNETLoader`
+  normales: son nodos con UUID como `type` (ej. `b645a6b8-...`).
+- Los nombres de modelo viven en **`nodes[].widgets_values`**, no en `inputs[]`.
+  → Para remapear BF16→FP8 hay que barrer `widgets_values` de TODOS los nodos.
+- Mapa aplicado (BF16 del autor → FP8 local):
+  - `Krea2\Krea2_Turbo_BF16.safetensors` → `krea2_turbo_fp8_scaled.safetensors`
+  - `Krea2_qwen3vl_4b_bf16.safetensors` → `qwen3vl_4b_fp8_scaled.safetensors`
+  - `KREA2_qwen_image_vae.safetensors` → `qwen_image_vae.safetensors`
+- `mode` en nodos = **0 activo / 4 bypass**. Para dejar una variante por defecto, poner
+  la cadena deseada en 0 y el resto en 4 (verificar luego que ningún nodo activo
+  dependa de uno en 4).
+
+### Variantes y requisitos
+| Variante | Requiere | Estado |
+|---|---|---|
+| V1 txt2img (+LoRA +Upscaler) | Krea2 FP8 + Qwen3VL FP8 + 4x-UltraSharp | ✅ **default recomendado** |
+| V2 = V1 + Prompt Enhancer | + CLIP generativo (Gemma) para `TextGenerate` | ⚠️ requiere descarga extra |
+| V3 I2I img2img | LoadImage + upscaler | ✅ funciona |
+| V4 Checkpoint Merger | **2 modelos Krea2 distintos** (ej. DarkBeast) | ❌ requiere 2º checkpoint |
+
+### Pitfalls encontrados (críticos)
+1. **`ClownsharKSampler_Beta`: `randomize` / `fixed` NO son válidos** en la API.
+   En el editor esos widgets controlan la seed, pero el input `sampler_mode` solo acepta
+   `standard | unsample | resample`. Enviar `randomize` → `400 value_not_in_list`.
+   → Usar `sampler_mode: "standard"` y pasar la seed real en `seed`.
+2. **`ImageUpscaleWithModel`** el input se llama **`upscale_model`**, NO `model`.
+   Usar `model` → `400 required_input_missing`.
+3. **`/object_info` devuelve los combos como `["COMBO", {"options": [...]}]`** — leer
+   `mn[1]["options"]`, no `mn[0]`. (Confunde y parece que la lista está vacía.)
+4. **`models/upscale_models` NO tenía junction** a `F:/Modelos` (checkpoints/loras/vae sí).
+   `extra_model_paths.yaml` no surtió efecto para esa carpeta → el .pth era invisible.
+   **Fix:** copiar físicamente a `F:/ComfyUI/models/upscale_models/` y reiniciar.
+5. **`Fast Groups Bypasser (rgthree)` NO es un nodo ejecutable** — es una extensión del
+   frontend. No aparece en `/object_info` y no hay que instalar nada. No bloquea.
+6. **`TextGenerate` SÍ es built-in** en ComfyUI 0.33 (`comfy_extras/nodes_textgen.py`),
+   pero exige un CLIP **generativo** (Gemma/Qwen con `generate()`); con CLIP normal falla.
+7. Arrancar ComfyUI desde git-bash: usar siempre
+   `/f/ComfyUI/venv/Scripts/python.exe main.py --lowvram --disable-pinned-memory`
+   (no `call`/`activate`).
+
+### Cadena V1 verificada (270 s, 1440×2160)
+```
+UNETLoader(krea2_turbo_fp8) + CLIPLoader(qwen3vl_4b_fp8, type=krea2) + VAELoader(qwen_image_vae)
+→ CLIPTextEncode(pos/neg) → EmptyLatentImage(1440×2160)
+→ Pass1: euler/beta, 6 steps, cfg 1.0, denoise 1.0
+→ Pass2: exponential/res_2s + bong_tangent, 2 steps, denoise 0.3, cfg 1.0
+→ VAEDecode → UpscaleModelLoader(4x-UltraSharp) → ImageUpscaleWithModel
+→ ImageScale(1440×2160, bilinear) → SaveImage
+```
+Template listo: `templates/krea2_res4lyf_v1_upscale.json` (API format, ~4.5 min en 3060).
+
+⚠️ Krea2 es distilled: **cfg 1.0** es lo correcto. Si se quiere que el negativo tenga
+efecto, subir cfg a **1.5–1.7 en ambos KSamplers** (lo dice el propio autor).

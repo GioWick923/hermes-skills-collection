@@ -50,11 +50,15 @@ print('SDXL' if 'model.diffusion_model' in names else ('FLUX' if 'double_blocks'
 ## Paso 3: Merge ponderado (script safetensors+torch)
 Escribir script en `F:/Modelos/checkpoints/merge_X.py` y correr en BACKGROUND:
 ```bash
-cd /f/Modelos/checkpoints && /f/ComfyUI/venv/Scripts/python.exe merge_X.py
+F:/ComfyUI/venv/Scripts/python.exe "F:/Modelos/checkpoints/merge_X.py"
 ```
-Script base: cargar A,B,C con `st.load_file(dev='cpu')`, para cada key comun: `out[k] = a.float()*wA + b.float()*wB + c.float()*wC`. Tensores solo en B/C se copian. `st.save_file(out, OUT)`.
-- Correr con `background=true` + `notify=["..._DONE","Error","Traceback"]`.
+⚠️ **CRÍTICO:** Usar RUTAS WINDOWS (`F:/...`) para python.exe y el script. NO usar `/f/Modelos/...` — Python nativo Windows NO traduce MSYS paths.
+
+Script base: cargar A,B,C con `st.load_file(device='cpu')` (paths también F:/ ), para cada key comun: `out[k] = a.float()*wA + b.float()*wB + c.float()*wC`. Tensores solo en B/C se copian. `st.save_file(out, OUT)`.
+- Correr con `background=true` + `notify=true` (no notify con patterns, timeout 1800s).
 - Cargar 3 modelos de 14GB ~= 35-42GB RAM (maquina tiene 98GB, OK).
+- **VAE:** Si modelo C tiene `first_stage_model.*`, copiarlos al output. Si ninguno tiene, hornear `F:/Modelos/vae/sdxl_vae.safetensors`.
+- **Salida:** siempre `.half()` a fp16 (mitad de tamaño, calidad idéntica).
 
 ## Paso 4: Convertir fp32 a fp16 (reducir tamano)
 `fp32` 14.2GB a `fp16` 7.27GB (mitad). Igual calidad al generar. Script: tensores `first_stage_model` (VAE) se dejan, resto `.half()`.

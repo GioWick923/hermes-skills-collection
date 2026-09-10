@@ -59,6 +59,13 @@ curl -s http://127.0.0.1:11434/api/generate \
   paciencia para CPU.
 - Imagen como **data URL** en `vision_analyze` a veces tampoco la carga; el path
   Ollama con base64 crudo es el fallback mas confiable en este host.
+- **HTTP 400 Bad Request en `/api/generate` con imagenes grandes** (verificado
+  2026-09-01): screenshots altos de ~370KB PNG superan el limite del payload de
+  Ollama → `urllib.error.HTTPError: HTTP Error 400`. **Fix: downscale la imagen
+  ANTES de mandarla** — `im.convert('RGB').save(out, quality=70)` con
+  `im.thumbnail((900,1200))` reduce un PNG de 368KB a ~73KB JPEG y el request pasa.
+  El problema no es la resolución en píxeles sino el tamaño del base64; un JPEG
+  comprimido siempre lo resuelve.
 
 ## Relacionado
 - `baidu-ocr`: parsing pesado con estructura (tablas/layout/PDF) — CPU lento en Windows.

@@ -62,6 +62,16 @@ Verificado: el modo `--summarize` mantiene coherencia (análisis de 31 funciones
 - `enable_thinking=false` es OBLIGATORIO (proxy lo inyecta) o responde vacío
   (gasta tokens en reasoning_content).
 
+## Wiring the local model INTO Hermes as a backend (verified 2026-09-03, RTX 3060 12GB)
+
+Full recipe in `references/hermes-provider-wiring.md`. Key facts:
+- **Hermes rejects models with <64K context** at agent init. Fix BOTH sides: `context_length: 65536` in the `providers.<name>` block of config.yaml (the Modelfile alone does NOT clear the check) AND `PARAMETER num_ctx 65536` in the Modelfile (rebuild with `ollama create`).
+- **Register a named provider under `providers:`** — `model.aliases` entries do NOT resolve via `hermes chat -m <alias>` (silently falls back to the fallback chain). Invoke with `--provider <name> -m <model>`. Verify which model answered by exporting the session JSONL and reading its `model` field.
+- **`delegation.provider/model/base_url/api_key`** in config.yaml routes `delegate_task` subagents to the local model → $0 manos on your GPU.
+- **Honest latency:** Hermes's system prompt is ~40K tokens; prompt eval on a 14B Q5 / 3060 is ~190 tok/s → **first call per session ≈ 6 min**. Local models fit delegation/fallback/batch, NOT interactive primary chat. Measure via `POST /api/chat stream:false` → `eval_count/eval_duration`.
+- **VRAM sizing lesson:** a 30B Q4 (18.6GB) does NOT fit 12GB VRAM (CPU swap, unusable); 14B Q5_K_M (~10.5GB) fits with ~1GB spill. "Bigger model" ≠ "better agent" when it doesn't fit — the 14B on-GPU beats the 30B on-CPU.
+- **Ollama tuning (Windows):** User env vars `OLLAMA_FLASH_ATTENTION=1`, `OLLAMA_KV_CACHE_TYPE=q8_0`, `OLLAMA_KEEP_ALIVE=30m`, then restart `ollama app.exe` (kill via PowerShell `Stop-Process`, git-bash `taskkill //F` mangles args).
+
 ## Verificación
 - [ ] Backup creado antes de reemplazar
 - [ ] Código del modelo ejecutado tal cual (solo sin backticks)
