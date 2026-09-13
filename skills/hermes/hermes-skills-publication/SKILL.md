@@ -96,6 +96,9 @@ irreversible). Offer public / private / custom-name.
 - Re-scan, commit, push again.
 
 ## Pitfalls
+- **Sync periódico (2026-09-09):** cron semanal `skills-github-sync` (dom 4am, no-agent) ejecuta `$LOCALAPPDATA/hermes/scripts/skills_github_sync.sh` — build → limpia .env → scan secretos → push. Repo: <GITHUB_USER>/hermes-skills-collection. El scan excluye `/tests/` y exige 20+ chars seguidos (los placeholders `ghp_ab...yz12` de tests eran falsos positivos que abortaban el push).
+- **Builder v2 maneja skills raíz:** las skills sin categoría útil (o con `category:` = su propio nombre) se publican bajo `uncategorized/` en vez de perderse. Ya NO es obligatorio moverlas físicamente (aunque mover las que sí tienen categoría real sigue siendo más limpio: 7 movidas el 09-sep).
+- **`.env` en subcarpetas de skills:** langextract-structured traía un `.env` con GEMINI_API_KEY real. Builder v2 lo excluye en EXCLUDE_FILES; el script además hace `find -delete` en el paquete y aborta el push si el scan detecta tokens.
 - **Skills en la raíz NO se publican (lección 2026-09-01).** `build_showcase.py` solo recorre
   `skills/<categoría>/<skill>/` (subdirectorios físicos). Un skill creado en la raíz de
   `$LOCALAPPDATA/hermes/skills/` con `category:` SOLO en frontmatter (p. ej. una skill nueva

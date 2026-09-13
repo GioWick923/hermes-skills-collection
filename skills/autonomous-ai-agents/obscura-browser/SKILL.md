@@ -12,7 +12,9 @@ metadata:
     related_skills: [hermes-agent, hermes-closed-loop-engineering, hermes-browser]
 ---
 
-# Obscura Browser for Hermes
+# Obscura Browser
+
+**Stack consolidado 2026-09-10 (benchmark real de arranque + tools/list):** obscura 0.02s/37 tools > chrome-devtools 1.2s/29 > playwright 0.6s/24 > stealth-browser 2.4s/97 > scrapling 2.2s/10 > browser-use 7.2s/6. Obscura = PRIMARIO (binario Rust, automation+extract+anti-detección), chrome-devtools = segundo (único con perf-trace/lighthouse/CDP). stealth/playwright/browser-use/scrapling DESHABILITADOS pero re-habilitables en `mcp_servers.<name>.enabled: true` (config.yaml). Re-benchmark antes de cambiar: `subprocess.Popen` + initialize JSON-RPC + tools/list. Backup config: config.yaml.bak3-20260910. for Hermes
 
 ## Overview
 

@@ -833,11 +833,10 @@ diagnostic recipe in `references/execute-code-sandbox-env-windows.md`.
 
 ### Testing / Contributing
 
-**`scripts/run_tests.sh` doesn't work as-is on Windows** — it looks for
-POSIX venv layouts (`.venv/bin/activate`). The Hermes-installed venv at
-`venv/Scripts/` has no pip or pytest either (stripped for install size).
-Workaround: install `pytest + pytest-xdist + pyyaml` into a system Python
-3.11 user site, then invoke pytest directly with `PYTHONPATH` set:
+**`scripts/run_tests.sh` on Windows (updated 2026-09-10):** the current runner
+DOES probe `venv/Scripts/activate` (Windows layout). It needs a venv WITH pytest —
+the release `venv/` is stripped. Create a separate test venv and point
+`HERMES_PYTHON` at it (see tests venv below); don't pollute the prod venv:
 
 ```bash
 "/c/Program Files/Python311/python" -m pip install --user pytest pytest-xdist pyyaml
@@ -845,8 +844,9 @@ export PYTHONPATH="$(pwd)"
 "/c/Program Files/Python311/python" -m pytest tests/foo/test_bar.py -v --tb=short -n 0
 ```
 
-Use `-n 0`, not `-n 4` — `pyproject.toml`'s default `addopts` already
-includes `-n`, and the wrapper's CI-parity guarantees don't apply off POSIX.
+This host keeps a ready test venv at `C:/Users/<USER>/AppData/Local/hermes/venvs/upgrade-tests`
+(pytest 8.4.2 + repo runtime deps). Usage:
+`HERMES_PYTHON=C:/Users/<USER>/AppData/Local/hermes/venvs/upgrade-tests/Scripts/python.exe bash scripts/run_tests.sh <path>`
 
 **POSIX-only tests need skip guards.** Common markers already in the codebase:
 - Symlinks — elevated privileges on Windows

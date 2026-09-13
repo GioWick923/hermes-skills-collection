@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+
+# Runtime-only dashboard state
+assets/dashboard/data/config.json
+assets/dashboard/data/snapshot-*.json
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Local packaging and test artifacts
+*.zip
+work/

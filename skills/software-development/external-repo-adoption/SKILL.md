@@ -169,3 +169,5 @@ El repo es 12 SKILL.md que envuelven una API de terceros con key + créditos
 - `references/pattern-port-to-own-scripts.md` — recipe verificada (2026-09-03) para "porta la
   idea": reescribir los patrones core de un repo no-instalable como scripts propios limpios
   (loop-rat → shift_guard.py + blind_grade.py), con suite de casos de borde en scratch repo.
+- `references/omp-evaluation.md` — evaluación de OMP (oh-my-pi, 30k+ stars): por qué no adoptar,
+  cuándo reconsiderar, comparación con Hermes.

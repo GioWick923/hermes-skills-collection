@@ -1,11 +1,11 @@
 ---
 category: prompt-engineering
 name: prompt-engineering-library
-version: "1.0.0"
-description: "Librería de prompts industriales (523 casos) extraída de awesome-gpt-image-2. Búsqueda por categoría/estilo/escena, composición de prompts desde plantillas, y inspiración aleatoria."
-argument-hint: "buscar arquitectura | prompt producto zapatos | inspirame 3"
+version: "2.0.0"
+description: "Dual prompt library: 523 industrial cases from gpt-image-2 + 15,000+ community prompts from prompts.chat. Search, compose, and retrieve prompts for any task."
+argument-hint: "buscar arquitectura | buscar coding agent en prompts.chat | inspirame 3 | build prompt producto"
 allowed-tools: Bash, Read, Write, Python
-homepage: https://github.com/freestylefly/awesome-gpt-image-2
+homepage: https://github.com/f/prompts.chat
 author: <GITHUB_USER>
 license: MIT
 user-invocable: true
@@ -170,6 +170,73 @@ Para actualizar los casos:
 curl -sL "https://raw.githubusercontent.com/freestylefly/awesome-gpt-image-2/main/data/cases.json" \
   -o skills/prompt-engineering-library/references/gpt-image-2-cases.json
 ```
+
+---
+
+## 🌐 Prompts.Chat — 15,000+ Prompts Comunitarios
+
+**La librería de prompts más grande del mundo** (170k stars en GitHub).
+
+### ¿Qué es?
+
+prompts.chat es una colección comunitaria de prompts para ChatGPT, Claude, Gemini, Llama, Mistral y más. Originalmente creado como "Awesome ChatGPT Prompts", ahora es la referencia definitiva de prompt engineering.
+
+| Métrica | Valor |
+|---------|-------|
+| **Prompts** | 15,000+ |
+| **Stars GitHub** | 169,900 ⭐ |
+| **Contribuidores** | 601+ |
+| **Licencia** | CC0 + MIT |
+| **API** | REST pública |
+
+### Script de integración
+
+```bash
+# Buscar prompts
+python scripts/prompts-chat.py --search "coding agent" --limit 5
+
+# Obtener prompt específico por slug
+python scripts/prompts-chat.py --slug "pharmacy-chronic-patient-crm"
+
+# Prompts aleatorios para inspiración
+python scripts/prompts-chat.py --random 3
+
+# Ver estadísticas de la librería
+python scripts/prompts-chat.py --stats
+
+# Output JSON para procesamiento automático
+python scripts/prompts-chat.py --search "llm" --format json
+```
+
+### Endpoints de la API
+
+| Endpoint | Uso |
+|----------|-----|
+| `GET /api/prompts?search=X&limit=Y` | Búsqueda con paginación |
+| `GET /api/prompts/{slug}` | Prompt individual |
+| `GET /api/prompts?random=true&limit=5` | Aleatorios |
+
+### Ejemplos de búsqueda útiles
+
+```bash
+# Para desarrollo de agentes
+python scripts/prompts-chat.py --search "agent" --limit 5
+
+# Para coding
+python scripts/prompts-chat.py --search "coding" --limit 5
+
+# Para documentación
+python scripts/prompts-chat.py --search "documentation" --limit 3
+```
+
+### Integración con el workflow
+
+1. **Inspiración**: `--random 5` para ver prompts variados
+2. **Búsqueda específica**: `--search "keyword"` para encontrar prompts relevantes
+3. **Profundizar**: Usar `--slug` para obtener el prompt completo
+4. **Adaptar**: Tomar la estructura y personalizar para tu caso
+
+---
 
 ## Próximos pasos
 

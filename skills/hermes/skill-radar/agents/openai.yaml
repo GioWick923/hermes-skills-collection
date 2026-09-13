@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill 监测雷达"
+  short_description: "Discover and rank valuable internet Skills"
+  default_prompt: "Use $skill-radar to discover, verify, and rank valuable Skills across the internet."

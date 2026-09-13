@@ -72,6 +72,21 @@ Full recipe in `references/hermes-provider-wiring.md`. Key facts:
 - **VRAM sizing lesson:** a 30B Q4 (18.6GB) does NOT fit 12GB VRAM (CPU swap, unusable); 14B Q5_K_M (~10.5GB) fits with ~1GB spill. "Bigger model" ≠ "better agent" when it doesn't fit — the 14B on-GPU beats the 30B on-CPU.
 - **Ollama tuning (Windows):** User env vars `OLLAMA_FLASH_ATTENTION=1`, `OLLAMA_KV_CACHE_TYPE=q8_0`, `OLLAMA_KEEP_ALIVE=30m`, then restart `ollama app.exe` (kill via PowerShell `Stop-Process`, git-bash `taskkill //F` mangles args).
 
+## Selección de fallback local (medido en host)
+- **Medir antes de recomendar arranque**: comparar load de modelo leyendo el log del
+  server (delta entre `load_model: loading model` y `llama_server: model loaded`) y
+  velocidad de generación (mediana de `eval time ... tokens per second` del log) — no
+  estimar desde el tamaño del modelo.
+- **Modelo registrado ≠ modelo en disco**: antes de arrancar un modelo local vía
+  model_manager, verificar `ls $LOCALAPPDATA/hermes/models/*.gguf`. Un GGUF borrado
+  produce 'GGUF no existe' en el arranque, no un error de config.
+- **Ollama vs llama.cpp como fallback**: Ollama (:11434) arranca un 14B Q5 y responde
+  en ~15s en frío; llama.cpp tardó ~35s en carga para un 9B — Ollama gana como
+  fallback por defecto, llama.cpp solo cuando se necesita el modelo concreto.
+- **GGUF huérfano**: un .gguf presente en models/ sin entrada en model_manager ni en
+  settings de dsh es inoperativo — integrarlo (model_manager + settings) o documentar
+  que está fuera del stack; nunca citarlo como opción disponible sin verificar wiring.
+
 ## Verificación
 - [ ] Backup creado antes de reemplazar
 - [ ] Código del modelo ejecutado tal cual (solo sin backticks)

@@ -30,10 +30,10 @@ memory sync, or diagnose why notes aren't reaching the semantic index.
 - **gbrain** = semantic index + knowledge graph over a PGLite DB. Writes reach it
   ONLY via MCP `put_page`/`capture` (agent calls the tools), NOT by the bridge
   scanning a folder.
-- **The bridge's `sync-gbrain` is a STUB** — it lists new notes and reports
-  `gbrain_available: true`, but never calls put_page (code comment literally says
-  "This would call gbrain MCP if available"). Do not trust `sync-gbrain` output as
-  evidence the brain ingested anything. Verify with `get_stats` page_count.
+- **The bridge's `sync-gbrain` is REAL since 2026-09-10** — it runs `gbrain sync
+  --source obsidian-vault` through the live serve (IPC-delegated) and extracts the
+  trailing JSON payload. The old stub description above is obsolete. Verify with
+  `get_stats` page_count; do not trust a bare exit code alone.
 
 ## Audit sequence (diagnosis-first)
 1. **Config:** `cat "$HOME/.gbrain/config.json"` → check engine=pglite,

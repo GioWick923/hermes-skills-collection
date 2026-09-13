@@ -90,6 +90,15 @@ ollama pull hf.co/<USER>/<REPO>:<QUANT>
 - **Ollama infers chat template from GGUF metadata** — you do not need to put `TEMPLATE` in the Modelfile. The HF `chat_template.jinja` is NOT directly compatible with Ollama's Go template format.
 - **mmproj is the vision projector**: a separate small GGUF (~0.6–0.9GB) that maps image embeddings into the LLM's token space. Without it, the model is text-only.
 - **Qwen3.5 VL models** use `Qwen3_5ForConditionalGeneration` architecture and tokens `<|vision_start|><|image_pad|><|vision_end|>` for images. The template is complex; trust the GGUF-embedded one.
+- **MoE models open up the low-quant territory**: a 30B MoE with ~3B active params stays usable at IQ2/IQ3 (10-12GB, fits a 12GB GPU whole) where a 27-30B DENSE model at IQ2 is badly degraded. When the user wants 'bigger brain, same speed' on a small GPU, prefer MoE at lower quant over dense at higher quant.
+- **Listing quant options**: use the HF tools (`hub_repo_search` for the repo, `hf_fs find` with `--glob` on quant patterns) instead of scraping the tree API by hand — returns exact file sizes to match against VRAM.
+
+## Replacing an existing local model (user rule)
+
+The user's standing instruction for local-model swaps: verify the replacement end-to-end
+BEFORE deleting the old model. Order: pull new → real-prompt smoke test (measure tok/s) →
+point configs at the new model → verify the consumer (e.g. dsh smoke) → `ollama rm` old →
+re-verify. Never delete the current fallback first.
 
 ## Pitfalls
 

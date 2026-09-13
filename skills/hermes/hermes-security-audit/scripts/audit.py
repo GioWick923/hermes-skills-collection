@@ -16,7 +16,7 @@ def load_env(path):
         return []
     for line in path.read_text(encoding='utf-8').splitlines():
         if pattern.search(line) and not line.strip().startswith('#'):
-            secrets.append(line.strip())
+            secrets.append(line.split("=", 1)[0].strip())
     return secrets
 
 def check_config():
@@ -43,28 +43,35 @@ def list_skills():
 def run_cmd(cmd):
     try:
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=15)
+        if result.returncode != 0:
+            return '', 'Command failed; output withheld'
         return result.stdout.strip(), result.stderr.strip()
     except Exception as e:
         return '', str(e)
 
 def check_mcp():
     out, err = run_cmd('hermes mcp list')
-    unavailable = []
+    unavailable = ['MCP status query failed; not verified'] if err or not out else []
     for line in out.splitlines():
         if 'error' in line.lower() or 'unavailable' in line.lower():
             unavailable.append(line.strip())
     return out, unavailable
 
 def check_cron():
-    out, err = run_cmd('hermes cron list')
+    home = Path(os.environ.get('HERMES_HOME', Path.home() / '.hermes'))
+    try:
+        data = json.loads((home / 'cron' / 'jobs.json').read_text(encoding='utf-8'))
+        jobs = data.get('jobs', [])
+    except (OSError, ValueError):
+        return '', ['Cannot read cron inventory; not verified']
     missing = []
-    for line in out.splitlines():
-        parts = line.split()
-        if len(parts) > 2:
-            script = parts[-1]
-            if not Path(script).exists():
-                missing.append(script)
-    return out, missing
+    for job in jobs:
+        for field in ('script', 'monitor_script'):
+            if job.get('enabled') and job.get(field):
+                p = Path(os.path.expandvars(job[field]))
+                if not p.is_absolute(): p = home / 'scripts' / p
+                if not p.is_file(): missing.append(str(p))
+    return f'{len(jobs)} jobs inspected (configuration only)', missing
 
 def main():
     report = []
@@ -73,7 +80,7 @@ def main():
     report.append(f'* Config file: {cfg_path}')
     report.append(f'* .env file: {env_path}')
     if env_secrets:
-        report.append('### Secretos potenciales en .env')
+        report.append('### Variables de credenciales presentes (valores ocultos; esperado en .env)')
         for s in env_secrets:
             report.append(f'- `{s}`')
     else:
@@ -95,7 +102,7 @@ def main():
         for i in mcp_issues:
             report.append(f'- {i}')
     else:
-        report.append('Todos los servidores MCP parecen activos.')
+        report.append('Inventario MCP leído; operaciones de cada servidor no verificadas.')
     cron_out, cron_missing = check_cron()
     report.append('\n## Cron')
     report.append('```')
@@ -108,8 +115,8 @@ def main():
     else:
         report.append('Todos los scripts de cron existen.')
     exit_code = 0
-    if env_secrets or risky_skills or mcp_issues or cron_missing:
-        if env_secrets or cron_missing:
+    if risky_skills or mcp_issues or cron_missing:
+        if mcp_issues or cron_missing:
             exit_code = 2
         else:
             exit_code = 1

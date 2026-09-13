@@ -135,7 +135,7 @@ gbrain config set sources.default obsidian-vault
 - Versiones distintas: `gbrain --version` vs `src/cli.ts` debe coincidir
 - `sources.default` vacío: Causa principal de búsquedas que retornan 0 resultados
 
-#### `sync-gbrain` → "Not inside a git repository: <vault>" (2026-09-09)
+#### `sync-gbrain` → "Not inside a git repository: <vault>"
 El vault ES un repo git válido y `git rev-parse` CLI funciona; falla SOLO dentro del
 proceso `gbrain serve` (MCP del harness) cuando el bridge delega el sync por el lock
 PGLite. `discoverGitRoot` usa `silenceStderr` y mascara el error git real.
@@ -143,12 +143,33 @@ PGLite. `discoverGitRoot` usa `silenceStderr` y mascara el error git real.
   ajeno; git resuelve contra ese y no contra el vault → el fallo se enmascara.
   Reproducir con `GIT_DIR=<path fake> git -C <vault> rev-parse --show-toplevel`.
 - **`GIT_DIR=""` NO neutraliza**: git trata set-vacío como set → también rompe.
-  Hay que UNSET o apuntar al `.git` real del vault (WORKAROUND, no fix limpio).
-- **WORKAROUND probado**: matar el serve del harness (taskkill /PID <N> /F con
-  `MSYS_NO_PATHCONV=1`) y correr `sync-gbrain` directo → exit 0. O lanzar serve con
-  env limpio. El harness respawna su serve polucionado, así que reaparece.
-- **Fix durable pendiente**: limpiar `GIT_DIR` en el bloque mcp.gbrain.env de
-  `config.yaml` del harness (se usa `SERVER` style; requiere tocar config global).
+  Hay que UNSET o apuntar al `.git` real del vault.
+- **FIX APLICADO (duradero)**: el bridge ahora hace `env.pop("GIT_DIR")` y
+  `env.pop("GIT_WORK_TREE")` antes de lanzar `gbrain sync`, y fija
+  `OLLAMA_BASE_URL` local con override (no `setdefault`). No hace falta matar el
+  serve ni tocar config global. Si reaparece, revisar que el bridge en uso sea la
+  versión con esos pops.
+
+### Rutas de memoria del bridge (perfil-scoped)
+El bridge resuelve su log auxiliar bajo `HERMES_HOME` (`$HERMES_HOME/data/
+memory-references.jsonl`), NO en `~/.hermes/memory.jsonl` heredado. Para tests o
+run aislado, exportar `HERMES_HOME`; nunca asumir el home antiguo. El log auxiliar
+(`memory-references.jsonl`) NO es el `MEMORY.md` canónico — no lo leas como memoria
+persistente ni lo consolides como si lo fuera.
+
+### Consolidación diaria — escritura protegida
+`consolidate` escribe SOLO dentro de una sección marcada
+`<!-- hermes:consolidation:start|end -->`: preserva texto humano fuera de la
+sección, es idempotente (dos corridas → mismo archivo), usa `filelock` + escritura
+atómica (`mkstemp`+`os.replace`) y deja backup previo en `10-Diario/.hermes-backups/`.
+Si la sección marcada está duplicada/malformada, el script falla en vez de
+sobrescribir — no lo 'arregles' relajando esa guarda.
+
+### Parser de salida de gbrain
+`_extract_trailing_json` debe devolver el ÚLTIMO objeto JSON **exterior** completo
+(walk forward con `JSONDecoder.raw_decode`, quedarse con el último dict top-level),
+no el último objeto interior anidado. Un parser que devuelve el interior silencia
+el `status` del payload y corrompe métricas aguas abajo.
 
 ## Vault
 

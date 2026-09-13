@@ -110,3 +110,5 @@ Eso NO significa que Docker esté roto — solo que el daemon no ha arrancado.
 - [ ] subprocess capturando netstat/tasklist: `encoding="latin-1"`
 - [ ] Matar proceso: `taskkill /F /PID` verificado con exit 0
 - [ ] Daemon en background: `creationflags=DETACHED|CREATE_NEW_PROCESS_GROUP` + log file
+- [ ] Instalación desde GitHub releases: descarga → extrae → copia a `$LOCALAPPDATA/hermes/bin/`
+- [ ] Paths MSYS: usar `$HOME/...` o rutas completas `C:/...`, nunca `/tmp/` sin verificar
