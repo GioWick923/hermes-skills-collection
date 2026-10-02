@@ -548,6 +548,12 @@ curl -X POST http://127.0.0.1:8188/free \
 python3 scripts/fetch_logs.py --tail-queue --host https://cloud.comfy.org
 ```
 
+## Companion: ComfyUI Assistant (instalado en este stack)
+
+En `F:\ComfyUI\custom_nodes\ComfyUI_Assistant` vive el chat flotante de
+BobbtheBuilder (provider Ollama Qwen3-VL-8B). Para tareas conversacionales de
+edición de workflows usar la skill `comfyui-assistant`.
+
 ## Pitfalls
 
 1. **API format required** — every script and the `/api/prompt` endpoint expect

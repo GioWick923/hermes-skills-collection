@@ -85,6 +85,24 @@ Diagnose the culprit first with `grep OLLAMA_BASE_URL "$LOCALAPPDATA/hermes/.env
   using. Applying an env fix in config.yaml is not enough until Hermes reloads
   the MCP (`/reset`). Verify the embed provider fix with the CLI `providers test`
   BEFORE `/reset` so you know it will work.
+- **A serve that died leaves a STALE PGLite lock that ALL syncs fail on.** If a
+  previous `gbrain serve` crashed/restarted, `~/.gbrain/brain.pglite/.gbrain-lock/lock`
+  can hold a dead PID and gbrain prints `will not remove ... automatically` — every
+  `sync` then refuses with `already open through gbrain serve (PID N)` even though no
+  serve is running, and the audit FAILs a healthy stack. Reap by moving that lock aside
+  ONLY when its owner PID is dead (`tasklist /FI "PID eq N"` → `no tasks`); leave a live
+  owner alone. Full recipe in `references/sync-stalemate.md` (also covers the
+  serve-delegated `Not inside a git repository` trap and the direct `--no-delegate` fix).
+- **Check Windows PID liveness with `tasklist`, NOT `os.kill(pid,0)`** — the latter
+  raises `SystemError: built-in function kill ... WinError 87` on Windows.
+  `tasklist /FI "PID eq N" /NH` and test `"no tasks" not in stdout`. Applies to any
+  bridge/script that probes PID liveness.
+- **Serve-delegated sync can fail with a MISLEADING `Not inside a git repository`**
+  on a valid repo because the serve resolves the repo from ITS OWN cwd/env, not the
+  caller's. Fix: run `gbrain sync --source <id> --no-delegate --no-pull` with `cwd`
+  set to the vault and `GIT_DIR`/`GIT_WORK_TREE` popped from the child env. If commit
+  changed mid-sync (`repository history changed`), gbrain banked the files — just run
+  the sync again and it resumes.
 - **The bridge never ingests into gbrain** — don't rely on `sync-gbrain`; only
   agent MCP writes (put_page/capture) grow the brain. If you want the whole vault
   indexed, an agent must call put_page per note (or fix the bridge stub).
@@ -103,3 +121,4 @@ Diagnose the culprit first with `grep OLLAMA_BASE_URL "$LOCALAPPDATA/hermes/.env
 - `hermes-mcp-integration` (user-owned): generic MCP server config + env pitfalls.
 - `hermes-obsidian-ops`: safe Obsidian capture layer.
 - `references/gbrain-troubleshooting-2026-09-01.md`: Caso práctico completo de auditoría y fix de gbrain (diagnóstico, solución, verificación).
+- `references/sync-stalemate.md`: Recipe para el sync bloqueado de gbrain — stale-lock reap, serve-delegated `Not inside a git repository`, direct `--no-delegate` fix, y Windows `tasklist` PID check.

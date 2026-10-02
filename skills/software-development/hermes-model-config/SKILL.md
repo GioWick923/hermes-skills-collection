@@ -120,6 +120,24 @@ provider returns exactly that class of error — so the custom fallback takes ov
 It is NOT triggered by context-window overflow mid-generation; it is triggered by the API call
 failing. This is the correct mechanism for "when the model runs out of tokens, use the backup."
 
+### ⚠️ Model-name collisions across providers (union-alpha case, 2026-09-16)
+
+Some model names exist on MULTIPLE providers as different models: `stealth/union-alpha`
+(OpenRouter, free, 262k ctx) vs `union-alpha` (api.experientiallabs.ai, a different "Union",
+its own catalog entry without publisher prefix). A session routed by bare short name can
+silently hit the WRONG provider; if that account's balance is exhausted the API returns
+429 `insufficient_quota` (non-retryable class) and the turn DIES — user sees "no responde / se corta".
+
+- Always use the full publisher-prefixed id (`stealth/union-alpha`), never the bare short name.
+- Audit `fallback_providers` for DEAD HOPS (accounts with $0/negative balance) before trusting
+  the chain: a non-retryable 429 kills the turn instead of advancing to the next hop.
+- Forensics: `$LOCALAPPDATA/hermes/sessions/request_dump_*.json` records exact URL/model/key of
+  every failed call (field `error.body.message` names the real provider), and the
+  `session_model_usage` table in `state.db` shows billing_provider/base_url per session/model.
+- `auxiliary.openrouter_model` must be a CLEAN model id: a value like
+  `nvidia/...:free:${HERMES_EMPERO_API_KEY}` (env var glued to the id) makes every aux call
+  (session titles) return HTTP 400. Correct shape: model id only + separate `free_only: true`.
+
 ### ❌ `model.api_key` in config.yaml overrides `.env` — and may be wrong
 
 When you set `model.api_key` directly in `config.yaml`, it **overrides** the `OPENROUTER_API_KEY`
@@ -330,6 +348,13 @@ will NOT appear in `hermes model` / the desktop model menu unless it's in the
 curated list. The picker pipeline (`hermes_cli/models.py::fetch_openrouter_models`):
 disk cache → provider override → remote Nous manifest → static fallback. Filters
 models that lack tool-calling support.
+
+**⚠️ If a provider-override file exists, it REPLACES the curated list wholesale**: every
+catalog refresh drops any model not listed in the override file (observed as "se desapareció
+de openrouter" — the model was still live on OpenRouter, just invisible in the picker). Symptom
+check: live `chat/completions` to the model still returns 200 while `fetch_openrouter_models`
+omits it. Fix: add the model to BOTH the override file (`model_catalog.openrouter.override.json`)
+AND the disk cache, then verify with `fetch_openrouter_models(force_refresh=True)`.
 
 To add a model (e.g. `inception/mercury-2.5`) durably:
 

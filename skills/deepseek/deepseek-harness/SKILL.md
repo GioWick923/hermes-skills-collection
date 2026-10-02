@@ -12,6 +12,11 @@ metadata:
 
 # DeepSeek Harness (dsh) – Windows guide
 
+## Interpretación de solicitudes de apoyo de código
+- Cuando Gio pide «DeepSeek Harness» o «CLI de DeepSeek» como refuerzo de programación, usar el agente `dsh` existente para desarrollo/revisión. No sustituirlo por un modelo DeepSeek en Ollama, no descargar pesos y no convertirlo en dependencia de la aplicación.
+- Separar el proveedor del agente de desarrollo del motor de traducción del producto. Confirmar cualquier nueva dependencia distribuida al usuario.
+- Tras una corrección explícita, detener la ruta equivocada antes de ejecutar nuevas pruebas o instalaciones.
+
 > **Estado operable (2026-09-10):** dsh headless funciona con `z-ai/glm-5.3-flash` vía
 > OpenRouter. Verificado con prompt real (`DSH_SMOKE_OK`). Usar la sección
 > **⚡ Configuración operativa** de abajo, no el flujo legacy.
